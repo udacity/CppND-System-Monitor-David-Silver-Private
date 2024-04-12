@@ -2,6 +2,7 @@
 #define SYSTEM_H
 
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "process.h"
@@ -9,16 +10,16 @@
 
 class System {
  public:
-  virtual Processor& Cpu() = 0;                   // TODO: See src/system.cpp
-  virtual std::vector<Process>& Processes() = 0;  // TODO: See src/system.cpp
-  virtual float MemoryUtilization() = 0;          // TODO: See src/system.cpp
-  virtual long UpTime() = 0;                      // TODO: See src/system.cpp
-  virtual int TotalProcesses() = 0;               // TODO: See src/system.cpp
-  virtual int RunningProcesses() = 0;             // TODO: See src/system.cpp
-  virtual std::string Kernel() = 0;               // TODO: See src/system.cpp
-  virtual std::string OperatingSystem() = 0;      // TODO: See src/system.cpp
+  System(Processor cpu) : cpu_(std::move(cpu)) {}
+  virtual Processor& Cpu() = 0;
+  virtual std::vector<Process>& Processes() = 0;
+  virtual float MemoryUtilization() = 0;
+  virtual long UpTime() = 0;
+  virtual int TotalProcesses() = 0;
+  virtual int RunningProcesses() = 0;
+  virtual std::string Kernel() = 0;
+  virtual std::string OperatingSystem() = 0;
 
-  // TODO: Define any necessary private members
  protected:
   Processor cpu_;
   std::vector<Process> processes_ = {};

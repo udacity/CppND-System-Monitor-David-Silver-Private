@@ -4,18 +4,16 @@
 
 using namespace std;
 
-LinuxSystem::LinuxSystem() {
+LinuxSystem::LinuxSystem() : System(Processor(this->cpu_info_file_path_)) {
   this->cpu_info_file_path_ = LinuxParser::kProcDirectory + LinuxParser::kCpuinfoFilename;
   this->mem_info_file_path_ = LinuxParser::kProcDirectory + LinuxParser::kMeminfoFilename;
   this->os_version_file_path_ = LinuxParser::kOSPath;
   this->status_file_path_ = LinuxParser::kProcDirectory + LinuxParser::kStatusFilename;
   this->stats_file_path_ =  LinuxParser::kProcDirectory + LinuxParser::kStatFilename;
   this->uptime_file_path_ = LinuxParser::kProcDirectory + LinuxParser::kUptimeFilename;
-
-  this->cpu_ = Processor(this->cpu_info_file_path_);
 }
 
-LinuxSystem::LinuxSystem(string cpuInfoFilePath, string memInfoFilePath, string osVersionFilePath, string statusFilePath, string statsFilePath, string uptimeFilePath) {
+LinuxSystem::LinuxSystem(string cpuInfoFilePath, string memInfoFilePath, string osVersionFilePath, string statusFilePath, string statsFilePath, string uptimeFilePath) : System(Processor(this->cpu_info_file_path_)) {
   this->cpu_info_file_path_ = cpuInfoFilePath;
   this->mem_info_file_path_ = memInfoFilePath;
   this->os_version_file_path_ = osVersionFilePath;
@@ -27,25 +25,25 @@ LinuxSystem::LinuxSystem(string cpuInfoFilePath, string memInfoFilePath, string 
 }
 
 // TODO: Return the system's CPU
-Processor& System::Cpu() { return cpu_; }
+Processor& LinuxSystem::Cpu() { return this->cpu_; }
 
 // TODO: Return a container composed of the system's processes
-vector<Process>& System::Processes() { return processes_; }
+vector<Process>& LinuxSystem::Processes() { return processes_; }
 
 // TODO: Return the system's kernel identifier (string)
-std::string System::Kernel() { return string(); }
+std::string LinuxSystem::Kernel() { return string(); }
 
 // TODO: Return the system's memory utilization
-float System::MemoryUtilization() { return 0.0; }
+float LinuxSystem::MemoryUtilization() { return 0.0; }
 
 // TODO: Return the operating system name
-std::string System::OperatingSystem() { return string(); }
+std::string LinuxSystem::OperatingSystem() { return string(); }
 
 // TODO: Return the number of processes actively running on the system
-int System::RunningProcesses() { return 0; }
+int LinuxSystem::RunningProcesses() { return 0; }
 
 // TODO: Return the total number of processes on the system
-int System::TotalProcesses() { return 0; }
+int LinuxSystem::TotalProcesses() { return 0; }
 
 // TODO: Return the number of seconds since the system started running
-long int System::UpTime() { return 0; }
+long int LinuxSystem::UpTime() { return 0; }
