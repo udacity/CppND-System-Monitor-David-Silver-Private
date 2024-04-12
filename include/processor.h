@@ -10,7 +10,7 @@ using namespace std;
 class Processor {
  public:
   Processor(string infoFilePath) : info_file_path_(std::move(infoFilePath)) {
-    if (infoFilePath.empty()) {throw  runtime_error("processor's information file path must not be empty"); }
+    if (this->info_file_path_.empty()) {throw runtime_error("processor's information file path must not be empty"); }
   }
   float Utilization();  // TODO: See src/processor.cpp
 

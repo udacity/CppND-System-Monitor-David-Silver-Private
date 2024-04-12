@@ -4,8 +4,10 @@
 
 using namespace std;
 
-LinuxSystem::LinuxSystem() : System(Processor(this->cpu_info_file_path_)) {
-  this->cpu_info_file_path_ = LinuxParser::kProcDirectory + LinuxParser::kCpuinfoFilename;
+const string kProcessorInfoFilePath = LinuxParser::kProcDirectory + LinuxParser::kCpuinfoFilename;
+
+LinuxSystem::LinuxSystem() : System(Processor(kProcessorInfoFilePath)) {
+  this->cpu_info_file_path_ = kProcessorInfoFilePath;
   this->mem_info_file_path_ = LinuxParser::kProcDirectory + LinuxParser::kMeminfoFilename;
   this->os_version_file_path_ = LinuxParser::kOSPath;
   this->status_file_path_ = LinuxParser::kProcDirectory + LinuxParser::kStatusFilename;
@@ -13,7 +15,7 @@ LinuxSystem::LinuxSystem() : System(Processor(this->cpu_info_file_path_)) {
   this->uptime_file_path_ = LinuxParser::kProcDirectory + LinuxParser::kUptimeFilename;
 }
 
-LinuxSystem::LinuxSystem(string cpuInfoFilePath, string memInfoFilePath, string osVersionFilePath, string statusFilePath, string statsFilePath, string uptimeFilePath) : System(Processor(this->cpu_info_file_path_)) {
+LinuxSystem::LinuxSystem(string cpuInfoFilePath, string memInfoFilePath, string osVersionFilePath, string statusFilePath, string statsFilePath, string uptimeFilePath) : System(Processor(cpuInfoFilePath)) {
   this->cpu_info_file_path_ = cpuInfoFilePath;
   this->mem_info_file_path_ = memInfoFilePath;
   this->os_version_file_path_ = osVersionFilePath;
@@ -24,7 +26,6 @@ LinuxSystem::LinuxSystem(string cpuInfoFilePath, string memInfoFilePath, string 
   this->cpu_ = Processor(this->cpu_info_file_path_);
 }
 
-// TODO: Return the system's CPU
 Processor& LinuxSystem::Cpu() { return this->cpu_; }
 
 // TODO: Return a container composed of the system's processes
