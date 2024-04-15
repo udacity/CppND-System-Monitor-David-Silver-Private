@@ -36,7 +36,13 @@ std::string LinuxSystem::Kernel() { return string(); }
 float LinuxSystem::MemoryUtilization() { return 0.0; }
 
 // TODO: Return the operating system name
-std::string LinuxSystem::OperatingSystem() { return string(); }
+std::string LinuxSystem::OperatingSystem() {
+  if (! this->osName_.empty()) {
+    return this->osName_;
+  }
+  this->osName_ = LinuxParser::OperatingSystem(this->os_version_file_path_);
+  return this->osName_;
+}
 
 // TODO: Return the number of processes actively running on the system
 int LinuxSystem::RunningProcesses() { return 0; }

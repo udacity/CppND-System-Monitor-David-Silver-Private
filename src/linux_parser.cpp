@@ -11,11 +11,11 @@ using std::to_string;
 using std::vector;
 
 // DONE: An example of how to read data from the filesystem
-string LinuxParser::OperatingSystem() {
+string LinuxParser::OperatingSystem(string filePath) {
   string line;
   string key;
   string value;
-  std::ifstream filestream(kOSPath);
+  std::ifstream filestream(filePath);
   if (filestream.is_open()) {
     while (std::getline(filestream, line)) {
       std::replace(line.begin(), line.end(), ' ', '_');

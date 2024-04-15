@@ -34,7 +34,10 @@ enable_testing()
 add_executable(
         monitor_test
         src/format.cpp
+        src/linux_parser.cpp
+        src/linux_system.cpp
         test/format_test.cpp
+        test/linux_parser_test.cpp
 )
 target_link_libraries(
         monitor_test
