@@ -33,6 +33,7 @@ target_compile_options(monitor PRIVATE -Wall -Wextra)
 enable_testing()
 add_executable(
         monitor_test
+        src/format.cpp
         test/format_test.cpp
 )
 target_link_libraries(

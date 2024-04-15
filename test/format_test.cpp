@@ -2,5 +2,5 @@
 #include "../include/format.h"
 
 TEST(FormatTest, CorrectlyFormatsDataOnlySeconds) {
-  EXPECT_EQ("", "00:00:10");
+  EXPECT_EQ(Format::ElapsedTime(10), "00:00:10");
 }
