@@ -7,7 +7,7 @@ using namespace std;
 const string kDefaultProcessorInfoFilePath = LinuxParser::kProcDirectory + LinuxParser::kCpuinfoFilename;
 
 LinuxSystem::LinuxSystem() : System(Processor(kDefaultProcessorInfoFilePath)) {
-  this->cpu_info_file_path_ = kProcessorInfoFilePath;
+  this->cpu_info_file_path_ = kDefaultProcessorInfoFilePath;
   this->mem_info_file_path_ = LinuxParser::kProcDirectory + LinuxParser::kMeminfoFilename;
   this->os_version_file_path_ = LinuxParser::kOSPath;
   this->status_file_path_ = LinuxParser::kProcDirectory + LinuxParser::kStatusFilename;
