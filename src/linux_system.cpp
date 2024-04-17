@@ -13,15 +13,17 @@ LinuxSystem::LinuxSystem() : System(Processor(kDefaultProcessorInfoFilePath)) {
   this->status_file_path_ = LinuxParser::kProcDirectory + LinuxParser::kStatusFilename;
   this->stats_file_path_ =  LinuxParser::kProcDirectory + LinuxParser::kStatFilename;
   this->uptime_file_path_ = LinuxParser::kProcDirectory + LinuxParser::kUptimeFilename;
+  this->kernel_info_file_path_ = LinuxParser::kProcDirectory + LinuxParser::kVersionFilename;
 }
 
-LinuxSystem::LinuxSystem(string cpuInfoFilePath, string memInfoFilePath, string osVersionFilePath, string statusFilePath, string statsFilePath, string uptimeFilePath) : System(Processor(cpuInfoFilePath)) {
+LinuxSystem::LinuxSystem(string cpuInfoFilePath, string memInfoFilePath, string osVersionFilePath, string statusFilePath, string statsFilePath, string uptimeFilePath, string kernelInfoFilePath) : System(Processor(cpuInfoFilePath)) {
   this->cpu_info_file_path_ = cpuInfoFilePath;
   this->mem_info_file_path_ = memInfoFilePath;
   this->os_version_file_path_ = osVersionFilePath;
   this->status_file_path_ = statusFilePath;
   this->stats_file_path_ =  statsFilePath;
   this->uptime_file_path_ = uptimeFilePath;
+  this->kernel_info_file_path_ = kernelInfoFilePath;
 }
 
 Processor& LinuxSystem::Cpu() { return this->cpu_; }
@@ -29,13 +31,17 @@ Processor& LinuxSystem::Cpu() { return this->cpu_; }
 // TODO: Return a container composed of the system's processes
 vector<Process>& LinuxSystem::Processes() { return processes_; }
 
-// TODO: Return the system's kernel identifier (string)
-std::string LinuxSystem::Kernel() { return string(); }
+std::string LinuxSystem::Kernel() {  
+  if (! this->kernelName_.empty()) {
+    return this->kernelName_;
+  }
+  this->kernelName_ = LinuxParser::Kernel(this->kernel_info_file_path_);
+  return this->kernelName_;
+}
 
 // TODO: Return the system's memory utilization
 float LinuxSystem::MemoryUtilization() { return 0.0; }
 
-// TODO: Return the operating system name
 std::string LinuxSystem::OperatingSystem() {
   if (! this->osName_.empty()) {
     return this->osName_;

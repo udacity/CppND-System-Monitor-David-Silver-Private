@@ -27,6 +27,7 @@ class System {
   vector<Process> processes_ = {};
 
   string osName_{""};
+  string kernelName_{""};
 };
 
 #endif
