@@ -19,12 +19,15 @@ const std::string kVersionFilename{"/version"};
 const std::string kOSPath{"/etc/os-release"};
 const std::string kPasswordPath{"/etc/passwd"};
 
+const std::string kTotalProcsKey{"processes"};
+const std::string kNumRunningProcsKey{"procs_running"};
+
 // System
 float MemoryUtilization();
 long UpTime();
 std::vector<int> Pids();
-int TotalProcesses();
-int RunningProcesses();
+int TotalProcesses(const std::filesystem::path &filePath);
+int RunningProcesses(const std::filesystem::path &filePath);
 std::string OperatingSystem(const std::filesystem::path &filePath);
 std::string Kernel(const std::filesystem::path &filePath);
 

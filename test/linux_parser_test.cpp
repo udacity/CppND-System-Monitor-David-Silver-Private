@@ -18,6 +18,18 @@ TEST(OperatingSystemTest, LinuxOSTest) {
 
 TEST(KernelTest, LinuxOSTest) {
   std::filesystem::path file("fake_proc_version");
-  std::filesystem::path os_data_path = std::filesystem::current_path() / kTestDir / kTestDataDir / file;
-  EXPECT_EQ(LinuxParser::Kernel(os_data_path), "5.15.146.1-microsoft-standard-WSL2");
+  std::filesystem::path kernel_data_path = std::filesystem::current_path() / kTestDir / kTestDataDir / file;
+  EXPECT_EQ(LinuxParser::Kernel(kernel_data_path), "5.15.146.1-microsoft-standard-WSL2");
+}
+
+TEST(NumberOfProcesses, LinuxOSTest) {
+  std::filesystem::path file("fake_stat");
+  std::filesystem::path stat_data_path = std::filesystem::current_path() / kTestDir / kTestDataDir / file;
+  EXPECT_EQ(LinuxParser::RunningProcesses(stat_data_path), 2);
+}
+
+TEST(TotalNumberOfProcesses, LinuxOSTest) {
+  std::filesystem::path file("fake_stat");
+  std::filesystem::path stat_data_path = std::filesystem::current_path() / kTestDir / kTestDataDir / file;
+  EXPECT_EQ(LinuxParser::TotalProcesses(stat_data_path), 29904);
 }

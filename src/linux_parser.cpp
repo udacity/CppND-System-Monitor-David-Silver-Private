@@ -11,6 +11,23 @@ using std::string;
 using std::to_string;
 using std::vector;
 
+int statValue(const std::filesystem::path &filePath, const std::string &key) {
+  string processName;
+  int numRunningProcs;
+  string line;
+  std::ifstream stream(filePath);
+  if (stream.is_open()) {
+    while (std::getline(stream, line)) {
+      std::istringstream linestream(line);
+      linestream >> processName >> numRunningProcs;
+      if (processName == key) {
+        return numRunningProcs;
+      }
+    }
+  }
+  return 0;
+}
+
 // DONE: An example of how to read data from the filesystem
 string LinuxParser::OperatingSystem(const std::filesystem::path &filePath) {
   string line;
@@ -90,10 +107,14 @@ long LinuxParser::IdleJiffies() { return 0; }
 vector<string> LinuxParser::CpuUtilization() { return {}; }
 
 // TODO: Read and return the total number of processes
-int LinuxParser::TotalProcesses() { return 0; }
+int LinuxParser::TotalProcesses(const std::filesystem::path &filePath) { 
+  return statValue(filePath, kTotalProcsKey);
+}
 
 // TODO: Read and return the number of running processes
-int LinuxParser::RunningProcesses() { return 0; }
+int LinuxParser::RunningProcesses(const std::filesystem::path &filePath) {
+  return statValue(filePath, kNumRunningProcsKey);
+}
 
 // TODO: Read and return the command associated with a process
 // REMOVE: [[maybe_unused]] once you define the function
