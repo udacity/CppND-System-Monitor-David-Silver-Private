@@ -12,7 +12,7 @@ using std::to_string;
 using std::vector;
 
 // DONE: An example of how to read data from the filesystem
-string LinuxParser::OperatingSystem(const std::filesystem::path filePath) {
+string LinuxParser::OperatingSystem(const std::filesystem::path &filePath) {
   string line;
   string key;
   string value;
@@ -35,10 +35,10 @@ string LinuxParser::OperatingSystem(const std::filesystem::path filePath) {
 }
 
 // DONE: An example of how to read data from the filesystem
-string LinuxParser::Kernel() {
+string LinuxParser::Kernel(const std::filesystem::path &filePath) {
   string os, version, kernel;
   string line;
-  std::ifstream stream(kProcDirectory + kVersionFilename);
+  std::ifstream stream(filePath);
   if (stream.is_open()) {
     std::getline(stream, line);
     std::istringstream linestream(line);

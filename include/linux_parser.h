@@ -25,8 +25,8 @@ long UpTime();
 std::vector<int> Pids();
 int TotalProcesses();
 int RunningProcesses();
-std::string OperatingSystem(const std::filesystem::path filePath);
-std::string Kernel();
+std::string OperatingSystem(const std::filesystem::path &filePath);
+std::string Kernel(const std::filesystem::path &filePath);
 
 // CPU
 enum CPUStates {
