@@ -50,11 +50,14 @@ std::string LinuxSystem::OperatingSystem() {
   return this->osName_;
 }
 
-// TODO: Return the number of processes actively running on the system
-int LinuxSystem::RunningProcesses() { return 0; }
+int LinuxSystem::RunningProcesses() { 
+  return LinuxParser::RunningProcesses(this->stats_file_path_);
+}
 
-// TODO: Return the total number of processes on the system
-int LinuxSystem::TotalProcesses() { return 0; }
+int LinuxSystem::TotalProcesses() { 
+  return LinuxParser::TotalProcesses(this->stats_file_path_);
+}
 
-// TODO: Return the number of seconds since the system started running
-long int LinuxSystem::UpTime() { return 0; }
+long int LinuxSystem::UpTime() {  
+  return LinuxParser::UpTime(this->uptime_file_path_);
+}

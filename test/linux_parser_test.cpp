@@ -22,14 +22,20 @@ TEST(KernelTest, LinuxOSTest) {
   EXPECT_EQ(LinuxParser::Kernel(kernel_data_path), "5.15.146.1-microsoft-standard-WSL2");
 }
 
-TEST(NumberOfProcesses, LinuxOSTest) {
+TEST(NumberOfProcessesTest, LinuxOSTest) {
   std::filesystem::path file("fake_stat");
   std::filesystem::path stat_data_path = std::filesystem::current_path() / kTestDir / kTestDataDir / file;
   EXPECT_EQ(LinuxParser::RunningProcesses(stat_data_path), 2);
 }
 
-TEST(TotalNumberOfProcesses, LinuxOSTest) {
+TEST(TotalNumberOfProcessesTest, LinuxOSTest) {
   std::filesystem::path file("fake_stat");
   std::filesystem::path stat_data_path = std::filesystem::current_path() / kTestDir / kTestDataDir / file;
   EXPECT_EQ(LinuxParser::TotalProcesses(stat_data_path), 29904);
+}
+
+TEST(UptimeTest, LinuxOSTest) {
+  std::filesystem::path file("fake_uptime");
+  std::filesystem::path stat_data_path = std::filesystem::current_path() / kTestDir / kTestDataDir / file;
+  EXPECT_EQ(LinuxParser::UpTime(stat_data_path), 12198);
 }

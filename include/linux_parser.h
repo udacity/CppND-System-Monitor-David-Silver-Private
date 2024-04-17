@@ -23,9 +23,9 @@ const std::string kTotalProcsKey{"processes"};
 const std::string kNumRunningProcsKey{"procs_running"};
 
 // System
-float MemoryUtilization();
-long UpTime();
-std::vector<int> Pids();
+float MemoryUtilization(const std::filesystem::path &filePath);
+long UpTime(const std::filesystem::path &filePath);
+std::vector<int> Pids(const std::string &dirPath);
 int TotalProcesses(const std::filesystem::path &filePath);
 int RunningProcesses(const std::filesystem::path &filePath);
 std::string OperatingSystem(const std::filesystem::path &filePath);
