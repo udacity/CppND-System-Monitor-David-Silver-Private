@@ -43,6 +43,8 @@ target_link_libraries(
         monitor_test
         GTest::gtest_main
 )
+add_test(monitor_test ${PROJECT_BINARY_DIR})
+set_tests_properties(monitor_test PROPERTIES WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/test)
 
 include(GoogleTest)
 gtest_discover_tests(monitor_test)

@@ -2,6 +2,7 @@
 #include <unistd.h>
 #include <string>
 #include <vector>
+#include <filesystem>
 
 #include "linux_parser.h"
 
@@ -11,7 +12,7 @@ using std::to_string;
 using std::vector;
 
 // DONE: An example of how to read data from the filesystem
-string LinuxParser::OperatingSystem(string filePath) {
+string LinuxParser::OperatingSystem(const std::filesystem::path filePath) {
   string line;
   string key;
   string value;
