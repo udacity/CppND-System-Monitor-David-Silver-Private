@@ -21,6 +21,8 @@ const std::string kPasswordPath{"/etc/passwd"};
 
 const std::string kTotalProcsKey{"processes"};
 const std::string kNumRunningProcsKey{"procs_running"};
+const std::string kMemTotalKey{"MemTotal:"};
+const std::string kMemFreeKey{"MemFree:"};
 
 // System
 float MemoryUtilization(const std::filesystem::path &filePath);

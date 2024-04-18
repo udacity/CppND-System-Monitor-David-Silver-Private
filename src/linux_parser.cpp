@@ -84,8 +84,24 @@ vector<int> LinuxParser::Pids(const std::string &dirPath) {
   return pids;
 }
 
-// TODO: Read and return the system memory utilization
-float LinuxParser::MemoryUtilization(const std::filesystem::path &filePath) { return 0.0; }
+float LinuxParser::MemoryUtilization(const std::filesystem::path &filePath) {
+  float value, memTotal, memFree;
+  string line, keyName;
+  std::ifstream stream(filePath);
+  if (stream.is_open()) {
+    while (std::getline(stream, line)) {
+      std::istringstream linestream(line);
+      linestream >> keyName >> value;
+      if (keyName == kMemTotalKey) {
+        memTotal = value;
+      } else if (keyName == kMemFreeKey) {
+        memFree = value;
+      }
+    }
+  }
+  // The output, display expects the utilization percentage to not be multiplied by 100 e.g. 0.041 instead of 4.1.
+  return (memTotal - memFree) / memTotal;
+}
 
 long LinuxParser::UpTime(const std::filesystem::path &filePath) {
   long upTime;

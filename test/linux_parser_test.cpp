@@ -39,3 +39,9 @@ TEST(UptimeTest, LinuxOSTest) {
   std::filesystem::path stat_data_path = std::filesystem::current_path() / kTestDir / kTestDataDir / file;
   EXPECT_EQ(LinuxParser::UpTime(stat_data_path), 12198);
 }
+
+TEST(MemoryUtilizationTest, LinuxOSTest) {
+  std::filesystem::path file("fake_meminfo");
+  std::filesystem::path stat_data_path = std::filesystem::current_path() / kTestDir / kTestDataDir / file;
+  EXPECT_FLOAT_EQ(LinuxParser::MemoryUtilization(stat_data_path), 0.041948750);
+}

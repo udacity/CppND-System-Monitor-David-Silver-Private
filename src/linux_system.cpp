@@ -1,6 +1,7 @@
 #include "linux_system.h"
 #include "linux_parser.h"
 #include "process.h"
+#include <iostream>
 
 using namespace std;
 
@@ -39,8 +40,9 @@ std::string LinuxSystem::Kernel() {
   return this->kernelName_;
 }
 
-// TODO: Return the system's memory utilization
-float LinuxSystem::MemoryUtilization() { return 0.0; }
+float LinuxSystem::MemoryUtilization() {
+  return LinuxParser::MemoryUtilization(this->mem_info_file_path_);
+}
 
 std::string LinuxSystem::OperatingSystem() {
   if (! this->osName_.empty()) {
@@ -58,6 +60,6 @@ int LinuxSystem::TotalProcesses() {
   return LinuxParser::TotalProcesses(this->stats_file_path_);
 }
 
-long int LinuxSystem::UpTime() {  
+long int LinuxSystem::UpTime() {
   return LinuxParser::UpTime(this->uptime_file_path_);
 }
