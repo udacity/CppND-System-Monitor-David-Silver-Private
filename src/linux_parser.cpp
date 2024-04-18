@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <filesystem>
+#include <iostream>
 
 #include "linux_parser.h"
 
@@ -141,22 +142,52 @@ int LinuxParser::RunningProcesses(const std::filesystem::path &filePath) {
   return statValue(filePath, kNumRunningProcsKey);
 }
 
-// TODO: Read and return the command associated with a process
-// REMOVE: [[maybe_unused]] once you define the function
-string LinuxParser::Command(int pid[[maybe_unused]]) { return string(); }
+string LinuxParser::Command(const std::filesystem::path &filePathRoot, int pid) {
+  std::filesystem::path filePath = filePathRoot / std::filesystem::path(std::to_string(pid)) / kCmdlineFilePath;
+  string line{""};
+  std::ifstream stream(filePath);
+  if (stream.is_open()) {
+    std::getline(stream, line);
+  }
+  return line;
+}
 
 // TODO: Read and return the memory used by a process
 // REMOVE: [[maybe_unused]] once you define the function
-string LinuxParser::Ram(int pid[[maybe_unused]]) { return string(); }
+string LinuxParser::Ram(const std::filesystem::path &filePath, int pid) { return string(); }
 
 // TODO: Read and return the user ID associated with a process
 // REMOVE: [[maybe_unused]] once you define the function
-string LinuxParser::Uid(int pid[[maybe_unused]]) { return string(); }
+string LinuxParser::Uid(const std::filesystem::path &filePath, int pid) { return string(); }
 
 // TODO: Read and return the user associated with a process
 // REMOVE: [[maybe_unused]] once you define the function
-string LinuxParser::User(int pid[[maybe_unused]]) { return string(); }
+string LinuxParser::User(const std::filesystem::path &filePath, int pid) { return string(); }
 
 // TODO: Read and return the uptime of a process
 // REMOVE: [[maybe_unused]] once you define the function
-long LinuxParser::UpTime(int pid[[maybe_unused]]) { return 0; }
+long int LinuxParser::UpTime(const std::filesystem::path &filePath, int pid) { return 0; }
+
+std::unordered_map<int, std::string>& LinuxParser::UserIdMap(const std::filesystem::path &filePath) {
+  static std::unordered_map<int, std::string> uid_map;
+
+  int id;
+  string line, datum, userName;
+  std::ifstream stream(filePath);
+  if (stream.is_open()) {
+    while (std::getline(stream, line)) {
+      std::istringstream linestream(line);
+      // Split the line stream on the ':' delimiter, storing the value in the `datum` variable.
+      std::getline(linestream, datum, ':');
+      userName = datum;
+      // The second portion of the line is not what we need, so we ignore it.
+      std::getline(linestream, datum, ':');
+      std::getline(linestream, datum, ':');
+      // The third portion of the line is the user's ID.
+      id = std::stoi(datum);
+      uid_map[id] = userName;
+    }
+  }
+
+  return uid_map;
+}

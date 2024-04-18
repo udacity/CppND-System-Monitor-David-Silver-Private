@@ -15,9 +15,10 @@ LinuxSystem::LinuxSystem() : System(Processor(kDefaultProcessorInfoFilePath)) {
   this->stats_file_path_ =  LinuxParser::kProcDirectory + LinuxParser::kStatFilename;
   this->uptime_file_path_ = LinuxParser::kProcDirectory + LinuxParser::kUptimeFilename;
   this->kernel_info_file_path_ = LinuxParser::kProcDirectory + LinuxParser::kVersionFilename;
+  this->uid_map_ = LinuxParser::UserIdMap(LinuxParser::kPasswordPath);
 }
 
-LinuxSystem::LinuxSystem(string cpuInfoFilePath, string memInfoFilePath, string osVersionFilePath, string statusFilePath, string statsFilePath, string uptimeFilePath, string kernelInfoFilePath) : System(Processor(cpuInfoFilePath)) {
+LinuxSystem::LinuxSystem(string cpuInfoFilePath, string memInfoFilePath, string osVersionFilePath, string statusFilePath, string statsFilePath, string uptimeFilePath, string kernelInfoFilePath, string etcPasswdFilePath) : System(Processor(cpuInfoFilePath)) {
   this->cpu_info_file_path_ = cpuInfoFilePath;
   this->mem_info_file_path_ = memInfoFilePath;
   this->os_version_file_path_ = osVersionFilePath;
@@ -25,6 +26,7 @@ LinuxSystem::LinuxSystem(string cpuInfoFilePath, string memInfoFilePath, string 
   this->stats_file_path_ =  statsFilePath;
   this->uptime_file_path_ = uptimeFilePath;
   this->kernel_info_file_path_ = kernelInfoFilePath;
+  this->uid_map_ = LinuxParser::UserIdMap(etcPasswdFilePath);
 }
 
 Processor& LinuxSystem::Cpu() { return this->cpu_; }
@@ -60,6 +62,6 @@ int LinuxSystem::TotalProcesses() {
   return LinuxParser::TotalProcesses(this->stats_file_path_);
 }
 
-long int LinuxSystem::UpTime() {
+long LinuxSystem::UpTime() {
   return LinuxParser::UpTime(this->uptime_file_path_);
 }

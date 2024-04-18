@@ -5,6 +5,7 @@
 #include <regex>
 #include <string>
 #include <filesystem>
+#include <unordered_map>
 
 namespace LinuxParser {
 // Paths
@@ -24,6 +25,8 @@ const std::string kNumRunningProcsKey{"procs_running"};
 const std::string kMemTotalKey{"MemTotal:"};
 const std::string kMemFreeKey{"MemFree:"};
 
+const std::filesystem::path kCmdlineFilePath("cmdline");
+
 // System
 float MemoryUtilization(const std::filesystem::path &filePath);
 long UpTime(const std::filesystem::path &filePath);
@@ -32,6 +35,7 @@ int TotalProcesses(const std::filesystem::path &filePath);
 int RunningProcesses(const std::filesystem::path &filePath);
 std::string OperatingSystem(const std::filesystem::path &filePath);
 std::string Kernel(const std::filesystem::path &filePath);
+std::unordered_map<int, std::string>& UserIdMap(const std::filesystem::path &filePath);
 
 // CPU
 enum CPUStates {
@@ -53,11 +57,11 @@ long ActiveJiffies(int pid);
 long IdleJiffies();
 
 // Processes
-std::string Command(int pid);
-std::string Ram(int pid);
-std::string Uid(int pid);
-std::string User(int pid);
-long int UpTime(int pid);
+std::string Command(const std::filesystem::path &filePathRoot, int pid);
+std::string Ram(const std::filesystem::path &filePathRoot, int pid);
+std::string Uid(const std::filesystem::path &filePathRoot, int pid);
+std::string User(const std::filesystem::path &filePathRoot, int pid);
+long int UpTime(const std::filesystem::path &filePathRoot, int pid);
 };  // namespace LinuxParser
 
 #endif
