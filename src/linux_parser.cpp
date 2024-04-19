@@ -6,6 +6,7 @@
 #include <iostream>
 
 #include "linux_parser.h"
+#include "system_memory.h"
 
 using std::stof;
 using std::string;
@@ -141,12 +142,10 @@ long LinuxParser::IdleJiffies() { return 0; }
 // TODO: Read and return CPU utilization
 vector<string> LinuxParser::CpuUtilization() { return {}; }
 
-// TODO: Read and return the total number of processes
 int LinuxParser::TotalProcesses(const std::filesystem::path &filePath) { 
   return FindValue<std::string, int>(filePath, kTotalProcsKey);
 }
 
-// TODO: Read and return the number of running processes
 int LinuxParser::RunningProcesses(const std::filesystem::path &filePath) {
   return FindValue<std::string, int>(filePath, kNumRunningProcsKey);
 }
@@ -161,9 +160,23 @@ string LinuxParser::Command(const std::filesystem::path &filePathRoot, int pid) 
   return line;
 }
 
-// TODO: Read and return the memory used by a process
-// REMOVE: [[maybe_unused]] once you define the function
-string LinuxParser::Ram(const std::filesystem::path &filePathRoot, int pid) { return string(); }
+string LinuxParser::Ram(const std::filesystem::path &filePathRoot, int pid) {
+  std::filesystem::path filePath = filePathRoot / std::filesystem::path(std::to_string(pid)) / kMemoryUtilizationFilePath;
+  int amount;
+  string line, key, unitValue;
+  std::ifstream stream(filePath);
+  if (stream.is_open()) {
+    while (std::getline(stream, line)) {
+      std::istringstream linestream(line);
+      linestream >> key >> amount >> unitValue;
+      if (key == kMemoryUtilizationKey) {
+        SystemMemory::Unit unit = SystemMemory::UnitFromString(unitValue);
+        return SystemMemory::Utilization(unit, amount).ToMbString();
+      }
+    }
+  }
+  return "0";
+}
 
 string LinuxParser::Uid(const std::filesystem::path &filePathRoot, int pid) { 
   std::filesystem::path filePath = filePathRoot / std::filesystem::path(std::to_string(pid)) / kUidFilePath;

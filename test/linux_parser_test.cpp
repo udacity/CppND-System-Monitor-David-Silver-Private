@@ -80,3 +80,11 @@ TEST(ProcStatusTest, Process1Test) {
 TEST(ProcStatusTest, Process103Test) {
   EXPECT_EQ(LinuxParser::Uid(kTestDataDirPath, 103), "1000");
 }
+
+TEST(ProcRamTest, Process1Test) {
+  EXPECT_EQ(LinuxParser::Ram(kTestDataDirPath, 1), "165");
+}
+
+TEST(ProcRamTest, Process103Test) {
+  EXPECT_EQ(LinuxParser::Ram(kTestDataDirPath, 103), "457");
+}

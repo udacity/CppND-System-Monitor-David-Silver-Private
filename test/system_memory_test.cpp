@@ -4,22 +4,22 @@
 #include <stdexcept>
 
 TEST(UnitFromStringTest, WorksAsExpected) {
-    EXPECT_EQ(SystemMemory::Unit::kb, SystemMemory::unitFromString("KB"));
-    EXPECT_EQ(SystemMemory::Unit::kb, SystemMemory::unitFromString("kB"));
-    EXPECT_EQ(SystemMemory::Unit::kb, SystemMemory::unitFromString("Kb"));
-    EXPECT_EQ(SystemMemory::Unit::kb, SystemMemory::unitFromString("kb"));
-    EXPECT_EQ(SystemMemory::Unit::mb, SystemMemory::unitFromString("MB"));
-    EXPECT_EQ(SystemMemory::Unit::mb, SystemMemory::unitFromString("mB"));
-    EXPECT_EQ(SystemMemory::Unit::mb, SystemMemory::unitFromString("Mb"));
-    EXPECT_EQ(SystemMemory::Unit::mb, SystemMemory::unitFromString("mb"));
-    EXPECT_EQ(SystemMemory::Unit::gb, SystemMemory::unitFromString("GB"));
-    EXPECT_EQ(SystemMemory::Unit::gb, SystemMemory::unitFromString("gB"));
-    EXPECT_EQ(SystemMemory::Unit::gb, SystemMemory::unitFromString("Gb"));
-    EXPECT_EQ(SystemMemory::Unit::gb, SystemMemory::unitFromString("gb"));
+    EXPECT_EQ(SystemMemory::Unit::kb, SystemMemory::UnitFromString("KB"));
+    EXPECT_EQ(SystemMemory::Unit::kb, SystemMemory::UnitFromString("kB"));
+    EXPECT_EQ(SystemMemory::Unit::kb, SystemMemory::UnitFromString("Kb"));
+    EXPECT_EQ(SystemMemory::Unit::kb, SystemMemory::UnitFromString("kb"));
+    EXPECT_EQ(SystemMemory::Unit::mb, SystemMemory::UnitFromString("MB"));
+    EXPECT_EQ(SystemMemory::Unit::mb, SystemMemory::UnitFromString("mB"));
+    EXPECT_EQ(SystemMemory::Unit::mb, SystemMemory::UnitFromString("Mb"));
+    EXPECT_EQ(SystemMemory::Unit::mb, SystemMemory::UnitFromString("mb"));
+    EXPECT_EQ(SystemMemory::Unit::gb, SystemMemory::UnitFromString("GB"));
+    EXPECT_EQ(SystemMemory::Unit::gb, SystemMemory::UnitFromString("gB"));
+    EXPECT_EQ(SystemMemory::Unit::gb, SystemMemory::UnitFromString("Gb"));
+    EXPECT_EQ(SystemMemory::Unit::gb, SystemMemory::UnitFromString("gb"));
 }
 
 TEST(UnitFromStringTest, HandlesBadInput) {
-    ASSERT_THROW(SystemMemory::unitFromString("invalid"), std::invalid_argument);
+    ASSERT_THROW(SystemMemory::UnitFromString("invalid"), std::invalid_argument);
 }
 
 TEST(UtilizationTest, HandlesBadInput) {

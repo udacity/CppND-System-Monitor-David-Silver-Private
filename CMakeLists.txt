@@ -36,6 +36,7 @@ add_executable(
         src/format.cpp
         src/linux_parser.cpp
         src/linux_system.cpp
+        src/system_memory.cpp
         test/format_test.cpp
         test/linux_parser_test.cpp
         test/system_memory_test.cpp
