@@ -14,12 +14,12 @@ NStgid: 2879 3
 NSpid:  2879 3
 NSpgid: 2371 0
 NSsid:  2371 0
-VmPeak:   231264 kB
-VmSize:   165864 kB
+VmPeak:   457704 kB
+VmSize:   457704 kB
 VmLck:         0 kB
 VmPin:         0 kB
-VmHWM:     10972 kB
-VmRSS:     10972 kB
+VmHWM:     13040 kB
+VmRSS:     12972 kB
 RssAnon:            2980 kB
 RssFile:            7992 kB
 RssShmem:              0 kB

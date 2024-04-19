@@ -165,8 +165,6 @@ string LinuxParser::Command(const std::filesystem::path &filePathRoot, int pid) 
 // REMOVE: [[maybe_unused]] once you define the function
 string LinuxParser::Ram(const std::filesystem::path &filePathRoot, int pid) { return string(); }
 
-// TODO: Read and return the user ID associated with a process
-// REMOVE: [[maybe_unused]] once you define the function
 string LinuxParser::Uid(const std::filesystem::path &filePathRoot, int pid) { 
   std::filesystem::path filePath = filePathRoot / std::filesystem::path(std::to_string(pid)) / kUidFilePath;
   return FindValue<string, string>(filePath, kUidKey);

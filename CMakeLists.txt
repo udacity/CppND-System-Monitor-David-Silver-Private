@@ -38,6 +38,7 @@ add_executable(
         src/linux_system.cpp
         test/format_test.cpp
         test/linux_parser_test.cpp
+        test/system_memory_test.cpp
 )
 target_link_libraries(
         monitor_test
