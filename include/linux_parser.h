@@ -24,8 +24,10 @@ const std::string kTotalProcsKey{"processes"};
 const std::string kNumRunningProcsKey{"procs_running"};
 const std::string kMemTotalKey{"MemTotal:"};
 const std::string kMemFreeKey{"MemFree:"};
+const std::string kUidKey{"Uid:"};
 
 const std::filesystem::path kCmdlineFilePath("cmdline");
+const std::filesystem::path kUidFilePath("status");
 
 // System
 float MemoryUtilization(const std::filesystem::path &filePath);

@@ -12,21 +12,30 @@ using std::string;
 using std::to_string;
 using std::vector;
 
-int statValue(const std::filesystem::path &filePath, const std::string &key) {
-  string processName;
-  int numRunningProcs;
+
+/**
+ *  @brief  Searches in an external file for a line starting with the specified value, and returns the associated value.
+ *  @param  filePath  A reference to the path to the file to read data from.
+ *  @param  key  The word to search the file for, at the start of the line in the file.
+ *
+ *  @returns The first matching token of type `Value` on the row that starts with the specified word.
+ */
+template <typename Key, typename Value>
+Value FindValue(const std::filesystem::path &filePath, const Key &key) {
+  Key currentKey;
+  Value currentValue;
   string line;
   std::ifstream stream(filePath);
   if (stream.is_open()) {
     while (std::getline(stream, line)) {
       std::istringstream linestream(line);
-      linestream >> processName >> numRunningProcs;
-      if (processName == key) {
-        return numRunningProcs;
+      linestream >> currentKey >> currentValue;
+      if (currentKey == key) {
+        return currentValue;
       }
     }
   }
-  return 0;
+  return currentValue;
 }
 
 // DONE: An example of how to read data from the filesystem
@@ -134,12 +143,12 @@ vector<string> LinuxParser::CpuUtilization() { return {}; }
 
 // TODO: Read and return the total number of processes
 int LinuxParser::TotalProcesses(const std::filesystem::path &filePath) { 
-  return statValue(filePath, kTotalProcsKey);
+  return FindValue<std::string, int>(filePath, kTotalProcsKey);
 }
 
 // TODO: Read and return the number of running processes
 int LinuxParser::RunningProcesses(const std::filesystem::path &filePath) {
-  return statValue(filePath, kNumRunningProcsKey);
+  return FindValue<std::string, int>(filePath, kNumRunningProcsKey);
 }
 
 string LinuxParser::Command(const std::filesystem::path &filePathRoot, int pid) {
@@ -154,19 +163,22 @@ string LinuxParser::Command(const std::filesystem::path &filePathRoot, int pid) 
 
 // TODO: Read and return the memory used by a process
 // REMOVE: [[maybe_unused]] once you define the function
-string LinuxParser::Ram(const std::filesystem::path &filePath, int pid) { return string(); }
+string LinuxParser::Ram(const std::filesystem::path &filePathRoot, int pid) { return string(); }
 
 // TODO: Read and return the user ID associated with a process
 // REMOVE: [[maybe_unused]] once you define the function
-string LinuxParser::Uid(const std::filesystem::path &filePath, int pid) { return string(); }
+string LinuxParser::Uid(const std::filesystem::path &filePathRoot, int pid) { 
+  std::filesystem::path filePath = filePathRoot / std::filesystem::path(std::to_string(pid)) / kUidFilePath;
+  return FindValue<string, string>(filePath, kUidKey);
+}
 
 // TODO: Read and return the user associated with a process
 // REMOVE: [[maybe_unused]] once you define the function
-string LinuxParser::User(const std::filesystem::path &filePath, int pid) { return string(); }
+string LinuxParser::User(const std::filesystem::path &filePathRoot, int pid) { return string(); }
 
 // TODO: Read and return the uptime of a process
 // REMOVE: [[maybe_unused]] once you define the function
-long int LinuxParser::UpTime(const std::filesystem::path &filePath, int pid) { return 0; }
+long int LinuxParser::UpTime(const std::filesystem::path &filePathRoot, int pid) { return 0; }
 
 std::unordered_map<int, std::string>& LinuxParser::UserIdMap(const std::filesystem::path &filePath) {
   static std::unordered_map<int, std::string> uid_map;

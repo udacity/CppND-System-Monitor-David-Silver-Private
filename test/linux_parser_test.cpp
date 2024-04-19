@@ -10,6 +10,7 @@ using std::string;
 
 const std::filesystem::path kTestDir("test");
 const std::filesystem::path kTestDataDir("testdata");
+const std::filesystem::path kTestDataDirPath = std::filesystem::current_path() / kTestDir / kTestDataDir;
 
 TEST(OperatingSystemTest, LinuxOSTest) {
   std::filesystem::path file("fake_os_release");
@@ -62,12 +63,20 @@ TEST(UserIdMapTest, LinuxOSTest) {
   EXPECT_EQ(actual, expected);
 }
 
-TEST(CommandTest, Process1Test) {
+TEST(ProcCommandTest, Process1Test) {
   std::filesystem::path root_data_path = std::filesystem::current_path() / kTestDir / kTestDataDir;
   EXPECT_EQ(LinuxParser::Command(root_data_path, 1), "/sbin/init");
 }
 
-TEST(CommandTest, Process103Test) {
+TEST(ProcCommandTest, Process103Test) {
   std::filesystem::path root_data_path = std::filesystem::current_path() / kTestDir / kTestDataDir;
   EXPECT_EQ(LinuxParser::Command(root_data_path, 103), "/usr/lib/chromium-browser/chromium-browser --type=zygote --ppapi-flash-path=/usr/lib/adobe-fl");
+}
+
+TEST(ProcStatusTest, Process1Test) {
+  EXPECT_EQ(LinuxParser::Uid(kTestDataDirPath, 1), "0");
+}
+
+TEST(ProcStatusTest, Process103Test) {
+  EXPECT_EQ(LinuxParser::Uid(kTestDataDirPath, 103), "1000");
 }
