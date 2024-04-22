@@ -32,6 +32,13 @@ const std::filesystem::path kUidFilePath("status");
 const std::filesystem::path kMemoryUtilizationFilePath("status");
 const std::filesystem::path kProcStatFilePath("stat");
 
+const int kUtimeStatIndex = 13;
+const int kStimeStatIndex = 14;
+const int kCutimeStatIndex = 15;
+const int kCstimeStatIndex = 16;
+const int kStarttimeStatIndex = 21;
+
+
 // System
 float MemoryUtilization(const std::filesystem::path &filePath);
 long UpTime(const std::filesystem::path &filePath);

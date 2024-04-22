@@ -95,11 +95,11 @@ TEST(ProcStatsTest, Process1Test) {
   EXPECT_EQ(actual.size(), 52);
   EXPECT_EQ(actual[0], "1");
   EXPECT_EQ(actual[1], "(systemd)");
-  EXPECT_EQ(actual[13], "5442");
-  EXPECT_EQ(actual[14], "406");
-  EXPECT_EQ(actual[15], "187");
-  EXPECT_EQ(actual[16], "37");
-  EXPECT_EQ(actual[21], "77");
+  EXPECT_EQ(actual[LinuxParser::kUtimeStatIndex], "5442");
+  EXPECT_EQ(actual[LinuxParser::kStimeStatIndex], "406");
+  EXPECT_EQ(actual[LinuxParser::kCutimeStatIndex], "187");
+  EXPECT_EQ(actual[LinuxParser::kCstimeStatIndex], "37");
+  EXPECT_EQ(actual[LinuxParser::kStarttimeStatIndex], "77");
 }
 
 TEST(ProcStatsTest, Process103Test) {
@@ -108,9 +108,9 @@ TEST(ProcStatsTest, Process103Test) {
   EXPECT_EQ(actual.size(), 52);
   EXPECT_EQ(actual[0], "2879");
   EXPECT_EQ(actual[1], "(chromium-browse)");
-  EXPECT_EQ(actual[13], "3");
-  EXPECT_EQ(actual[14], "48");
-  EXPECT_EQ(actual[15], "91213");
-  EXPECT_EQ(actual[16], "12278");
-  EXPECT_EQ(actual[21], "3570");
+  EXPECT_EQ(actual[LinuxParser::kUtimeStatIndex], "3");
+  EXPECT_EQ(actual[LinuxParser::kStimeStatIndex], "48");
+  EXPECT_EQ(actual[LinuxParser::kCutimeStatIndex], "91213");
+  EXPECT_EQ(actual[LinuxParser::kCstimeStatIndex], "12278");
+  EXPECT_EQ(actual[LinuxParser::kStarttimeStatIndex], "3570");
 }
