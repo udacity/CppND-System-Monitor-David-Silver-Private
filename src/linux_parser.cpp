@@ -4,6 +4,7 @@
 #include <vector>
 #include <filesystem>
 #include <iostream>
+#include <iterator>
 
 #include "linux_parser.h"
 #include "system_memory.h"
@@ -37,6 +38,18 @@ Value FindValue(const std::filesystem::path &filePath, const Key &key) {
     }
   }
   return currentValue;
+}
+
+vector<string> LinuxParser::Stats(const std::filesystem::path &filePath) {
+  string line;
+  std::ifstream stream(filePath);
+  vector<string> tokens;
+  if (stream.is_open()) {
+    std::getline(stream, line);
+    std::istringstream linestream(line);
+    tokens.assign(std::istream_iterator<string>(linestream), std::istream_iterator<string>());
+  }
+  return tokens;
 }
 
 // DONE: An example of how to read data from the filesystem
