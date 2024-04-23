@@ -1,13 +1,16 @@
 #include "linux_system.h"
 #include "linux_parser.h"
 #include "process.h"
+
 #include <iostream>
+#include <filesystem>
 
 using namespace std;
 
 const string kDefaultProcessorInfoFilePath = LinuxParser::kProcDirectory + LinuxParser::kCpuinfoFilename;
 
 LinuxSystem::LinuxSystem() : System(Processor(kDefaultProcessorInfoFilePath)) {
+  this->procs_dir_path_ = LinuxParser::kProcDirectory;
   this->cpu_info_file_path_ = kDefaultProcessorInfoFilePath;
   this->mem_info_file_path_ = LinuxParser::kProcDirectory + LinuxParser::kMeminfoFilename;
   this->os_version_file_path_ = LinuxParser::kOSPath;
@@ -18,7 +21,8 @@ LinuxSystem::LinuxSystem() : System(Processor(kDefaultProcessorInfoFilePath)) {
   this->uid_map_ = LinuxParser::UserIdMap(LinuxParser::kPasswordPath);
 }
 
-LinuxSystem::LinuxSystem(string cpuInfoFilePath, string memInfoFilePath, string osVersionFilePath, string statusFilePath, string statsFilePath, string uptimeFilePath, string kernelInfoFilePath, string etcPasswdFilePath) : System(Processor(cpuInfoFilePath)) {
+LinuxSystem::LinuxSystem(string procs_dir_path, string cpuInfoFilePath, string memInfoFilePath, string osVersionFilePath, string statusFilePath, string statsFilePath, string uptimeFilePath, string kernelInfoFilePath, string etcPasswdFilePath) : System(Processor(cpuInfoFilePath)) {
+  this->procs_dir_path_ = procs_dir_path;
   this->cpu_info_file_path_ = cpuInfoFilePath;
   this->mem_info_file_path_ = memInfoFilePath;
   this->os_version_file_path_ = osVersionFilePath;
@@ -32,7 +36,17 @@ LinuxSystem::LinuxSystem(string cpuInfoFilePath, string memInfoFilePath, string 
 Processor& LinuxSystem::Cpu() { return this->cpu_; }
 
 // TODO: Return a container composed of the system's processes
-vector<Process>& LinuxSystem::Processes() { return processes_; }
+vector<Process>& LinuxSystem::Processes() {
+  static vector<Process> processes;
+  const vector<int> currentPids = LinuxParser::Pids(this->procs_dir_path_);
+  const filesystem::path procDirPath(this->procs_dir_path_);
+  for(const int pid: currentPids) {
+    const string uid = LinuxParser::Uid(this->procs_dir_path_, pid);
+    const string cmd = LinuxParser::Command(this->procs_dir_path_, pid);
+    const Process proc(*this, pid, this->uid_map_[uid], cmd, procDirPath);
+  }
+  return processes;
+}
 
 std::string LinuxSystem::Kernel() {  
   if (! this->kernelName_.empty()) {

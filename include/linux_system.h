@@ -11,7 +11,7 @@ class LinuxSystem : public System {
   // The default constructor uses the standard location for the Linux system files, using the constants defined in the linux_parser.h header file.
   LinuxSystem();
   // Constructor for specifying alternative files for providing system information. Useful for unit testing the implementation logic.
-  LinuxSystem(string cpuInfoFilePath, string memInfoFilePath, string osVersionFilePath, string statusFilePath, string statsFilePath, string uptimeFilePath, string kernelInfoFilePath, string etcPasswdFilePath);
+  LinuxSystem(string procs_dir_path, string cpuInfoFilePath, string memInfoFilePath, string osVersionFilePath, string statusFilePath, string statsFilePath, string uptimeFilePath, string kernelInfoFilePath, string etcPasswdFilePath);
   Processor& Cpu() override;
   std::vector<Process>& Processes() override;
   float MemoryUtilization() override;
@@ -21,6 +21,7 @@ class LinuxSystem : public System {
   std::string Kernel() override;
   std::string OperatingSystem() override;
  private:
+  string procs_dir_path_;
   string cpu_info_file_path_;
   string status_file_path_;
   string mem_info_file_path_;
@@ -28,7 +29,7 @@ class LinuxSystem : public System {
   string uptime_file_path_;
   string os_version_file_path_;
   string kernel_info_file_path_;
-  std::unordered_map<int, std::string> uid_map_;
+  std::unordered_map<std::string, std::string> uid_map_;
 };
 
 #endif  // MONITOR_LINUX_SYSTEM_H

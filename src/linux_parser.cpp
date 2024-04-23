@@ -204,10 +204,9 @@ string LinuxParser::User(const std::filesystem::path &filePathRoot, int pid) { r
 // REMOVE: [[maybe_unused]] once you define the function
 long int LinuxParser::UpTime(const std::filesystem::path &filePathRoot, int pid) { return 0; }
 
-std::unordered_map<int, std::string>& LinuxParser::UserIdMap(const std::filesystem::path &filePath) {
-  static std::unordered_map<int, std::string> uid_map;
+std::unordered_map<string, string>& LinuxParser::UserIdMap(const std::filesystem::path &filePath) {
+  static std::unordered_map<string, string> uid_map;
 
-  int id;
   string line, datum, userName;
   std::ifstream stream(filePath);
   if (stream.is_open()) {
@@ -220,8 +219,7 @@ std::unordered_map<int, std::string>& LinuxParser::UserIdMap(const std::filesyst
       std::getline(linestream, datum, ':');
       std::getline(linestream, datum, ':');
       // The third portion of the line is the user's ID.
-      id = std::stoi(datum);
-      uid_map[id] = userName;
+      uid_map[datum] = userName;
     }
   }
 

@@ -58,8 +58,8 @@ TEST(PidTest, LinuxOSTest) {
 TEST(UserIdMapTest, LinuxOSTest) {
   std::filesystem::path file("fake_etc_passwd");
   std::filesystem::path etc_passwd_data_path = std::filesystem::current_path() / kTestDir / kTestDataDir / file;
-  std::unordered_map<int, string> expected{{0,"root"}, {1,"daemon"}, {2, "bin"}, {1000, "foo"}};
-  std::unordered_map<int, string> actual = LinuxParser::UserIdMap(etc_passwd_data_path);
+  std::unordered_map<string, string> expected{{"0","root"}, {"1","daemon"}, {"2", "bin"}, {"1000", "foo"}};
+  std::unordered_map<string, string> actual = LinuxParser::UserIdMap(etc_passwd_data_path);
   EXPECT_EQ(actual, expected);
 }
 

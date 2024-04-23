@@ -47,7 +47,7 @@ int TotalProcesses(const std::filesystem::path &filePath);
 int RunningProcesses(const std::filesystem::path &filePath);
 std::string OperatingSystem(const std::filesystem::path &filePath);
 std::string Kernel(const std::filesystem::path &filePath);
-std::unordered_map<int, std::string>& UserIdMap(const std::filesystem::path &filePath);
+std::unordered_map<std::string, std::string>& UserIdMap(const std::filesystem::path &filePath);
 std::vector<std::string> Stats(const std::filesystem::path &filePath);
 
 // CPU
