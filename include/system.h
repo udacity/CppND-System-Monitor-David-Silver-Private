@@ -5,10 +5,12 @@
 #include <utility>
 #include <vector>
 
-#include "process.h"
 #include "processor.h"
 
 using namespace std;
+
+// Forward declare the Process class to avoid dependency issues.
+class Process;
 
 class System {
  public:
