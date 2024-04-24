@@ -148,7 +148,7 @@ long LinuxParser::ActiveJiffies(int pid[[maybe_unused]]) { return 0; }
 
 long LinuxParser::ActiveJiffies(const std::filesystem::path &filePath) {
   vector<string> values = LinuxParser::CpuUtilization(filePath);
-  return stol(values[LinuxParser::kUser_]) + stol(values[LinuxParser::kNice_]) + stol(values[LinuxParser::kSystem_]) + 
+  return stol(values[LinuxParser::kUser_]) + stol(values[LinuxParser::kNice_]) + stol(values[LinuxParser::kSystem_]) + stol(values[LinuxParser::kIRQ_]) +
     stol(values[LinuxParser::kSoftIRQ_]) + stol(values[LinuxParser::kSteal_]) + stol(values[LinuxParser::kGuest_]) + stol(values[LinuxParser::kGuestNice_]);
 }
 

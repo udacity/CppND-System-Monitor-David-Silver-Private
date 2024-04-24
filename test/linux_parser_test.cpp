@@ -63,20 +63,71 @@ TEST(UserIdMapTest, LinuxOSTest) {
   EXPECT_EQ(actual, expected);
 }
 
-TEST(CpuUtilizationTest, LinuxOSTest) {
+TEST(CpuUtilizationTest, FakeStatTest) {
   std::filesystem::path file("fake_stat");
   std::filesystem::path stat_data_path = kTestDataDirPath / file;
-  std::vector<string> expected = {"30632", "119", "29094", "51232413", "1853" "0", "1882", "0", "0", "0"};
+  std::vector<string> expected = {"30632", "119", "29094", "51232413", "1853", "0", "1882", "0", "0", "0"};
   std::vector<string> actual = LinuxParser::CpuUtilization(stat_data_path);
+  EXPECT_EQ(actual, expected);
 }
 
-TEST(ActiveJiffiesTest, LinuxOSTest) {
+TEST(CpuUtilizationTest, FakeCPUStatTest) {
+  std::filesystem::path file("fake_cpu_stat");
+  std::filesystem::path stat_data_path = kTestDataDirPath / file;
+  std::vector<string> expected = {"74608", "2520", "24433", "1117073", "6176", "4054", "0", "0", "0", "0"};
+  std::vector<string> actual = LinuxParser::CpuUtilization(stat_data_path);
+  EXPECT_EQ(actual, expected);
+}
+
+
+TEST(ActiveJiffiesTest, FakeStatTest) {
   std::filesystem::path file("fake_stat");
   std::filesystem::path stat_data_path = kTestDataDirPath / file;
-  const long expected = 0;
+  const long expected = 61727;
   const long actual = LinuxParser::ActiveJiffies(stat_data_path);
   EXPECT_EQ(actual, expected);
 }
+
+TEST(ActiveJiffiesTest, FakeCPUStatTest) {
+  std::filesystem::path file("fake_cpu_stat");
+  std::filesystem::path stat_data_path = kTestDataDirPath / file;
+  const long expected = 105615;
+  const long actual = LinuxParser::ActiveJiffies(stat_data_path);
+  EXPECT_EQ(actual, expected);
+}
+
+TEST(IdleJiffiesTest, FakeStatTest) {
+  std::filesystem::path file("fake_stat");
+  std::filesystem::path stat_data_path = kTestDataDirPath / file;
+  const long expected = 51234266;
+  const long actual = LinuxParser::IdleJiffies(stat_data_path);
+  EXPECT_EQ(actual, expected);
+}
+
+TEST(IdleJiffiesTest, FakeCPUStatTest) {
+  std::filesystem::path file("fake_cpu_stat");
+  std::filesystem::path stat_data_path = kTestDataDirPath / file;
+  const long expected = 1123249;
+  const long actual = LinuxParser::IdleJiffies(stat_data_path);
+  EXPECT_EQ(actual, expected);
+}
+
+TEST(JiffiesTest, FakeStatTest) {
+  std::filesystem::path file("fake_stat");
+  std::filesystem::path stat_data_path = kTestDataDirPath / file;
+  const long expected = 51295993;
+  const long actual = LinuxParser::Jiffies(stat_data_path);
+  EXPECT_EQ(actual, expected);
+}
+
+TEST(JiffiesTest, FakeCPUStatTest) {
+  std::filesystem::path file("fake_cpu_stat");
+  std::filesystem::path stat_data_path = kTestDataDirPath / file;
+  const long expected = 1228864;
+  const long actual = LinuxParser::Jiffies(stat_data_path);
+  EXPECT_EQ(actual, expected);
+}
+
 
 TEST(ProcCommandTest, Process1Test) {
   std::filesystem::path root_data_path = kTestDataDirPath;
