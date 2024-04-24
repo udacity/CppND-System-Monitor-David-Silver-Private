@@ -139,17 +139,16 @@ long LinuxParser::UpTime(const std::filesystem::path &filePath) {
   return upTime;
 }
 
-// TODO: Read and return the number of jiffies for the system
+// NOTE: Provided function not required in this implementation
 long LinuxParser::Jiffies() { return 0; }
 
-// TODO: Read and return the number of active jiffies for a PID
-// REMOVE: [[maybe_unused]] once you define the function
+// NOTE: Provided function not required in this implementation
 long LinuxParser::ActiveJiffies(int pid[[maybe_unused]]) { return 0; }
 
-// TODO: Read and return the number of active jiffies for the system
+// NOTE: Provided function not required in this implementation
 long LinuxParser::ActiveJiffies() { return 0; }
 
-// TODO: Read and return the number of idle jiffies for the system
+// NOTE: Provided function not required in this implementation
 long LinuxParser::IdleJiffies() { return 0; }
 
 // TODO: Read and return CPU utilization
@@ -198,13 +197,11 @@ string LinuxParser::Uid(const std::filesystem::path &filePathRoot, int pid) {
   return FindValue<string, string>(filePath, kUidKey);
 }
 
-// TODO: Read and return the user associated with a process
-// REMOVE: [[maybe_unused]] once you define the function
-string LinuxParser::User(const std::filesystem::path &filePathRoot, int pid) { return string(); }
+// NOTE: Provided function not required in this implementation
+string LinuxParser::User(int pid[[maybe_unused]]) { return string(); }
 
-// TODO: Read and return the uptime of a process
-// REMOVE: [[maybe_unused]] once you define the function
-long int LinuxParser::UpTime(const std::filesystem::path &filePathRoot, int pid) { return 0; }
+// NOTE: Provided function not required in this implementation
+long LinuxParser::UpTime(int pid[[maybe_unused]]) { return 0; }
 
 std::unordered_map<string, string>& LinuxParser::UserIdMap(const std::filesystem::path &filePath) {
   static std::unordered_map<string, string> uid_map;

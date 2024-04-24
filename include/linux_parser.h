@@ -73,8 +73,8 @@ long IdleJiffies();
 std::string Command(const std::filesystem::path &filePathRoot, int pid);
 std::string Ram(const std::filesystem::path &filePathRoot, int pid);
 std::string Uid(const std::filesystem::path &filePathRoot, int pid);
-std::string User(const std::filesystem::path &filePathRoot, int pid);
-long int UpTime(const std::filesystem::path &filePathRoot, int pid);
+std::string User(int pid);
+long int UpTime(int pid);
 };  // namespace LinuxParser
 
 #endif
