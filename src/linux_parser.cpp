@@ -139,17 +139,23 @@ long LinuxParser::UpTime(const std::filesystem::path &filePath) {
   return upTime;
 }
 
-// NOTE: Provided function not required in this implementation
-long LinuxParser::Jiffies() { return 0; }
+long LinuxParser::Jiffies(const std::filesystem::path &filePath) {
+  return LinuxParser::ActiveJiffies(filePath) + LinuxParser::IdleJiffies(filePath);
+}
 
 // NOTE: Provided function not required in this implementation
 long LinuxParser::ActiveJiffies(int pid[[maybe_unused]]) { return 0; }
 
-// NOTE: Provided function not required in this implementation
-long LinuxParser::ActiveJiffies() { return 0; }
+long LinuxParser::ActiveJiffies(const std::filesystem::path &filePath) {
+  vector<string> values = LinuxParser::CpuUtilization(filePath);
+  return stol(values[LinuxParser::kUser_]) + stol(values[LinuxParser::kNice_]) + stol(values[LinuxParser::kSystem_]) + 
+    stol(values[LinuxParser::kSoftIRQ_]) + stol(values[LinuxParser::kSteal_]) + stol(values[LinuxParser::kGuest_]) + stol(values[LinuxParser::kGuestNice_]);
+}
 
-// NOTE: Provided function not required in this implementation
-long LinuxParser::IdleJiffies() { return 0; }
+long LinuxParser::IdleJiffies(const std::filesystem::path &filePath) {
+  vector<string> values = LinuxParser::CpuUtilization(filePath);
+  return stol(values[LinuxParser::kIdle_]) + stol(values[LinuxParser::kIOwait_]);
+}
 
 vector<string> LinuxParser::CpuUtilization(const std::filesystem::path &filePath) {
   vector<string> stats = Stats(filePath);

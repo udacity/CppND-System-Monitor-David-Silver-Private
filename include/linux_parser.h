@@ -64,10 +64,10 @@ enum CPUStates {
   kGuestNice_
 };
 std::vector<std::string> CpuUtilization(const std::filesystem::path &filePath);
-long Jiffies();
-long ActiveJiffies();
+long Jiffies(const std::filesystem::path &filePath);
+long ActiveJiffies(const std::filesystem::path &filePath);
 long ActiveJiffies(int pid);
-long IdleJiffies();
+long IdleJiffies(const std::filesystem::path &filePath);
 
 // Processes
 std::string Command(const std::filesystem::path &filePathRoot, int pid);

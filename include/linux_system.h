@@ -9,6 +9,8 @@
 
 using std::string;
 
+const string kDefaultProcessorStatsFilePath = LinuxParser::kProcDirectory + LinuxParser::kStatFilename;
+
 class LinuxSystem : public System {
  public:
   // The default constructor uses the standard location for the Linux system files, using the constants defined in the linux_parser.h header file.

@@ -70,6 +70,14 @@ TEST(CpuUtilizationTest, LinuxOSTest) {
   std::vector<string> actual = LinuxParser::CpuUtilization(stat_data_path);
 }
 
+TEST(ActiveJiffiesTest, LinuxOSTest) {
+  std::filesystem::path file("fake_stat");
+  std::filesystem::path stat_data_path = kTestDataDirPath / file;
+  const long expected = 0;
+  const long actual = LinuxParser::ActiveJiffies(stat_data_path);
+  EXPECT_EQ(actual, expected);
+}
+
 TEST(ProcCommandTest, Process1Test) {
   std::filesystem::path root_data_path = kTestDataDirPath;
   EXPECT_EQ(LinuxParser::Command(root_data_path, 1), "/sbin/init");

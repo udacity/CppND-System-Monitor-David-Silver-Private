@@ -55,5 +55,5 @@ void Process::UpdateStats() {
     const long procTotalTime = procUpTime + procSTime + procCUTime + procCSTime;
     const long procElapsedTime = systemUpTime - (procStartTime / cpuHertz);
     this->uptime_ = procElapsedTime;
-    this->cpu_utilization_ = 100 * ((procTotalTime / cpuHertz) / procElapsedTime);
+    this->cpu_utilization_ = 100 * ((float(procTotalTime) / cpuHertz) / procElapsedTime);
 }

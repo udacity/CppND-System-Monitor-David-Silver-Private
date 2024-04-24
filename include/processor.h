@@ -9,13 +9,13 @@ using namespace std;
 
 class Processor {
  public:
-  Processor(string infoFilePath) : info_file_path_(std::move(infoFilePath)) {
-    if (this->info_file_path_.empty()) {throw runtime_error("processor's information file path must not be empty"); }
+  Processor(string cpuStatsFilePath) : cpu_stats_file_path_(std::move(cpuStatsFilePath)) {
+    if (this->cpu_stats_file_path_.empty()) {throw runtime_error("processor's statistics file path must not be empty"); }
   }
-  float Utilization();  // TODO: See src/processor.cpp
+  float Utilization();
 
  private:
-  string info_file_path_;
+  const string cpu_stats_file_path_;
 };
 
 #endif

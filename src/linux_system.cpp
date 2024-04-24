@@ -8,11 +8,9 @@
 
 using namespace std;
 
-const string kDefaultProcessorInfoFilePath = LinuxParser::kProcDirectory + LinuxParser::kCpuinfoFilename;
-
-LinuxSystem::LinuxSystem() : System(Processor(kDefaultProcessorInfoFilePath)) {
+LinuxSystem::LinuxSystem() : System(Processor(kDefaultProcessorStatsFilePath)) {
   this->procs_dir_path_ = LinuxParser::kProcDirectory;
-  this->cpu_info_file_path_ = kDefaultProcessorInfoFilePath;
+  this->cpu_info_file_path_ = LinuxParser::kProcDirectory + LinuxParser::kCpuinfoFilename;
   this->mem_info_file_path_ = LinuxParser::kProcDirectory + LinuxParser::kMeminfoFilename;
   this->os_version_file_path_ = LinuxParser::kOSPath;
   this->status_file_path_ = LinuxParser::kProcDirectory + LinuxParser::kStatusFilename;
@@ -22,7 +20,7 @@ LinuxSystem::LinuxSystem() : System(Processor(kDefaultProcessorInfoFilePath)) {
   this->uid_map_ = LinuxParser::UserIdMap(LinuxParser::kPasswordPath);
 }
 
-LinuxSystem::LinuxSystem(string procs_dir_path, string cpuInfoFilePath, string memInfoFilePath, string osVersionFilePath, string statusFilePath, string statsFilePath, string uptimeFilePath, string kernelInfoFilePath, string etcPasswdFilePath) : System(Processor(cpuInfoFilePath)) {
+LinuxSystem::LinuxSystem(string procs_dir_path, string cpuInfoFilePath, string memInfoFilePath, string osVersionFilePath, string statusFilePath, string statsFilePath, string uptimeFilePath, string kernelInfoFilePath, string etcPasswdFilePath) : System(Processor(statsFilePath)) {
   this->procs_dir_path_ = procs_dir_path;
   this->cpu_info_file_path_ = cpuInfoFilePath;
   this->mem_info_file_path_ = memInfoFilePath;
@@ -36,7 +34,6 @@ LinuxSystem::LinuxSystem(string procs_dir_path, string cpuInfoFilePath, string m
 
 Processor& LinuxSystem::Cpu() { return this->cpu_; }
 
-// TODO: Return a container composed of the system's processes
 vector<Process>& LinuxSystem::Processes() {
   static vector<Process> processes;
   const vector<int> currentPids = LinuxParser::Pids(this->procs_dir_path_);
