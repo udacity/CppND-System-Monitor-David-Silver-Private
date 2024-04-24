@@ -151,8 +151,12 @@ long LinuxParser::ActiveJiffies() { return 0; }
 // NOTE: Provided function not required in this implementation
 long LinuxParser::IdleJiffies() { return 0; }
 
-// TODO: Read and return CPU utilization
-vector<string> LinuxParser::CpuUtilization() { return {}; }
+vector<string> LinuxParser::CpuUtilization(const std::filesystem::path &filePath) {
+  vector<string> stats = Stats(filePath);
+  // Remove the "cpu" element from the start of the vector.
+  vector<string>(stats.begin()+1, stats.end()).swap(stats);
+  return stats;
+}
 
 int LinuxParser::TotalProcesses(const std::filesystem::path &filePath) { 
   return FindValue<std::string, int>(filePath, kTotalProcsKey);
