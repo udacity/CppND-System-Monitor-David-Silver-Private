@@ -2,7 +2,10 @@
 #define MONITOR_LINUX_SYSTEM_H
 
 #include <unordered_map>
+#include <chrono>
+
 #include "system.h"
+#include "process.h"
 
 using std::string;
 
@@ -30,6 +33,9 @@ class LinuxSystem : public System {
   string os_version_file_path_;
   string kernel_info_file_path_;
   std::unordered_map<std::string, std::string> uid_map_;
+  std::unordered_map<std::string, Process&> proc_map_;
+  long uptime_{0};
+  std::chrono::time_point<std::chrono::system_clock> uptime_last_updated_;
 };
 
 #endif  // MONITOR_LINUX_SYSTEM_H

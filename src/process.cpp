@@ -16,7 +16,10 @@ using std::vector;
 int Process::Pid() { return this->pid_; }
 
 // TODO: Return this process's CPU utilization
-float Process::CpuUtilization() { return 0; }
+float Process::CpuUtilization() {
+    UpdateStats();
+    this->cpu_utilization_;
+}
 
 // TODO: Return the command that generated this process
 string Process::Command() { return this->cmd_; }
@@ -35,7 +38,9 @@ long int Process::UpTime() {
 
 // TODO: Overload the "less than" comparison operator for Process objects
 // REMOVE: [[maybe_unused]] once you define the function
-bool Process::operator<(Process const& a[[maybe_unused]]) const { return true; }
+bool Process::operator<(Process const& a) const {
+    this->cpu_utilization_ < a.cpu_utilization_;
+}
 
 void Process::UpdateStats() {
     const std::chrono::time_point now = std::chrono::system_clock::now();
@@ -46,6 +51,14 @@ void Process::UpdateStats() {
     this->stats_last_updated_ = now;
     const auto stats = LinuxParser::Stats(this->proc_stats_file_path_);
     const auto systemUpTime = this->system_.UpTime();
-    this->uptime_ = (systemUpTime - std::stol(stats[LinuxParser::kStarttimeStatIndex])) / sysconf(_SC_CLK_TCK);
-    // const long 
+    const long procStartTime = std::stol(stats[LinuxParser::kStarttimeStatIndex]);
+    const long procUpTime = std::stol(stats[LinuxParser::kUtimeStatIndex]);
+    const long procSTime = std::stol(stats[LinuxParser::kStimeStatIndex]);
+    const long procCUTime = std::stol(stats[LinuxParser::kCutimeStatIndex]);
+    const long procCSTime = std::stol(stats[LinuxParser::kCstimeStatIndex]);
+    const auto cpuHertz = sysconf(_SC_CLK_TCK);
+    const long procTotalTime = procUpTime + procSTime + procCUTime + procCSTime;
+    const long procElapsedTime = systemUpTime - (procStartTime / cpuHertz);
+    this->uptime_ = procElapsedTime;
+    this->cpu_utilization_ = 100 * ((procTotalTime / cpuHertz) / procElapsedTime);
 }

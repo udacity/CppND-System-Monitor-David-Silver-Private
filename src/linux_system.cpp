@@ -2,6 +2,7 @@
 #include "linux_parser.h"
 #include "process.h"
 
+#include <chrono>
 #include <iostream>
 #include <filesystem>
 
@@ -44,6 +45,7 @@ vector<Process>& LinuxSystem::Processes() {
     const string uid = LinuxParser::Uid(this->procs_dir_path_, pid);
     const string cmd = LinuxParser::Command(this->procs_dir_path_, pid);
     const Process proc(*this, pid, this->uid_map_[uid], cmd, procDirPath);
+    processes.push_back(proc);
   }
   return processes;
 }
@@ -77,5 +79,12 @@ int LinuxSystem::TotalProcesses() {
 }
 
 long LinuxSystem::UpTime() {
-  return LinuxParser::UpTime(this->uptime_file_path_);
+  const std::chrono::time_point now = std::chrono::system_clock::now();
+  const std::chrono::time_point nextUpdate = uptime_last_updated_ + kUpdateInterval;
+  if (now < nextUpdate) {
+      return this->uptime_;
+  }
+  this->uptime_last_updated_ = now;
+  this->uptime_ = LinuxParser::UpTime(this->uptime_file_path_);
+  return this->uptime_;
 }
