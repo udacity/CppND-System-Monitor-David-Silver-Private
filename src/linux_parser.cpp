@@ -170,6 +170,8 @@ string LinuxParser::Command(const std::filesystem::path &filePathRoot, int pid) 
   if (stream.is_open()) {
     std::getline(stream, line);
   }
+  // Handles the situation where some commandlines contain null characters.
+  std::replace(line.begin(), line.end(), '\0', ' ');
   return line;
 }
 

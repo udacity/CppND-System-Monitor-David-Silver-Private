@@ -50,7 +50,7 @@ TEST(MemoryUtilizationTest, LinuxOSTest) {
 
 TEST(PidTest, LinuxOSTest) {
   std::filesystem::path pid_dir_path = std::filesystem::current_path() / kTestDir / kTestDataDir;
-  std::vector<int> expected{1, 103};
+  std::vector<int> expected{1, 103, 75};
   std::vector<int> actual = LinuxParser::Pids(pid_dir_path.string());
   EXPECT_EQ(actual, expected);
 }
@@ -66,6 +66,11 @@ TEST(UserIdMapTest, LinuxOSTest) {
 TEST(ProcCommandTest, Process1Test) {
   std::filesystem::path root_data_path = std::filesystem::current_path() / kTestDir / kTestDataDir;
   EXPECT_EQ(LinuxParser::Command(root_data_path, 1), "/sbin/init");
+}
+
+TEST(ProcCommandTest, Process75Test) {
+  std::filesystem::path root_data_path = std::filesystem::current_path() / kTestDir / kTestDataDir;
+  EXPECT_EQ(LinuxParser::Command(root_data_path, 75), "snapfuse /var/lib/snapd/snaps/bare_5.snap /snap/bare/5 -o ro,nodev,allow_other,suid ");
 }
 
 TEST(ProcCommandTest, Process103Test) {
@@ -100,6 +105,19 @@ TEST(ProcStatsTest, Process1Test) {
   EXPECT_EQ(actual[LinuxParser::kCutimeStatIndex], "187");
   EXPECT_EQ(actual[LinuxParser::kCstimeStatIndex], "37");
   EXPECT_EQ(actual[LinuxParser::kStarttimeStatIndex], "77");
+}
+
+TEST(ProcStatsTest, Process75Test) {
+  std::filesystem::path stats_data_path = kTestDataDirPath / std::filesystem::path("75") / LinuxParser::kProcStatFilePath;
+  std::vector<string> actual = LinuxParser::Stats(stats_data_path);
+  EXPECT_EQ(actual.size(), 52);
+  EXPECT_EQ(actual[0], "75");
+  EXPECT_EQ(actual[1], "(snapfuse)");
+  EXPECT_EQ(actual[LinuxParser::kUtimeStatIndex], "0");
+  EXPECT_EQ(actual[LinuxParser::kStimeStatIndex], "0");
+  EXPECT_EQ(actual[LinuxParser::kCutimeStatIndex], "0");
+  EXPECT_EQ(actual[LinuxParser::kCstimeStatIndex], "0");
+  EXPECT_EQ(actual[LinuxParser::kStarttimeStatIndex], "217");
 }
 
 TEST(ProcStatsTest, Process103Test) {
