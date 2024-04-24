@@ -15,31 +15,26 @@ using std::vector;
 
 int Process::Pid() { return this->pid_; }
 
-// TODO: Return this process's CPU utilization
 float Process::CpuUtilization() {
     UpdateStats();
-    this->cpu_utilization_;
+    return this->cpu_utilization_;
 }
 
-// TODO: Return the command that generated this process
 string Process::Command() { return this->cmd_; }
 
-// TODO: Return this process's memory utilization
-string Process::Ram() { return string(); }
+string Process::Ram() {
+    return LinuxParser::Ram(this->fs_path_root_, this->pid_);
+}
 
-// TODO: Return the user (name) that generated this process
 string Process::User() { return this->user_; }
 
-// TODO: Return the age of this process (in seconds)
 long int Process::UpTime() {
     UpdateStats();
     return this->uptime_;
 }
 
-// TODO: Overload the "less than" comparison operator for Process objects
-// REMOVE: [[maybe_unused]] once you define the function
 bool Process::operator<(Process const& a) const {
-    this->cpu_utilization_ < a.cpu_utilization_;
+    return this->cpu_utilization_ < a.cpu_utilization_;
 }
 
 void Process::UpdateStats() {

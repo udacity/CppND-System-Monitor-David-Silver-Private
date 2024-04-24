@@ -90,6 +90,10 @@ TEST(ProcRamTest, Process1Test) {
   EXPECT_EQ(LinuxParser::Ram(kTestDataDirPath, 1), "165");
 }
 
+TEST(ProcRamTest, Process75Test) {
+  EXPECT_EQ(LinuxParser::Ram(kTestDataDirPath, 75), "4");
+}
+
 TEST(ProcRamTest, Process103Test) {
   EXPECT_EQ(LinuxParser::Ram(kTestDataDirPath, 103), "457");
 }
