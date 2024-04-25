@@ -1,10 +1,10 @@
-#include <unistd.h>
 #include <cctype>
 #include <sstream>
 #include <string>
 #include <vector>
 #include <chrono>
 #include <ctime>
+#include <iostream>
 
 #include "process.h"
 #include "linux_parser.h"
@@ -34,26 +34,28 @@ long int Process::UpTime() {
 }
 
 bool Process::operator<(Process const& a) const {
-    return this->cpu_utilization_ > a.cpu_utilization_;
+    std::cout << "this uitilzation: " << this->cpu_utilization_ << "\n";
+    std::cout << "that uitilzation: " << a.cpu_utilization_ << "\n";
+    return this->cpu_utilization_ < a.cpu_utilization_;
 }
 
 void Process::UpdateStats() {
-    const std::chrono::time_point now = std::chrono::system_clock::now();
+    /*const std::chrono::time_point now = std::chrono::system_clock::now();
     const std::chrono::time_point nextUpdate = stats_last_updated_ + kUpdateInterval;
     if (now < nextUpdate) {
         return;
     }
     this->stats_last_updated_ = now;
+    */
     const auto stats = LinuxParser::Stats(this->proc_stats_file_path_);
-    const auto systemUpTime = this->system_.UpTime();
+    const long systemUpTime = this->system_.UpTime();
     const long procStartTime = std::stol(stats[LinuxParser::kStarttimeStatIndex]);
     const long procUpTime = std::stol(stats[LinuxParser::kUtimeStatIndex]);
     const long procSTime = std::stol(stats[LinuxParser::kStimeStatIndex]);
     const long procCUTime = std::stol(stats[LinuxParser::kCutimeStatIndex]);
     const long procCSTime = std::stol(stats[LinuxParser::kCstimeStatIndex]);
-    const float cpuHertz = float(sysconf(_SC_CLK_TCK));
     const float procTotalTime = float(procUpTime + procSTime + procCUTime + procCSTime);
-    const float procElapsedTime = float(systemUpTime) - (float(procStartTime) / cpuHertz);
+    const float procElapsedTime = float(systemUpTime) - (float(procStartTime) / kCPUHertz);
     this->uptime_ = (long int) procElapsedTime;
-    this->cpu_utilization_ = 100 * ((procTotalTime / cpuHertz) / (float) procElapsedTime);
+    this->cpu_utilization_ = (procTotalTime / kCPUHertz) / procElapsedTime;
 }

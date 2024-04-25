@@ -1,33 +1,33 @@
-Name:	systemd
-Umask:	0000
+Name:	snapfuse
+Umask:	0022
 State:	S (sleeping)
-Tgid:	1
+Tgid:	78
 Ngid:	0
-Pid:	1
-PPid:	0
+Pid:	78
+PPid:	1
 TracerPid:	0
 Uid:	0	0	0	0
 Gid:	0	0	0	0
-FDSize:	128
+FDSize:	64
 Groups:	 
-NStgid:	1
-NSpid:	1
-NSpgid:	1
-NSsid:	1
-VmPeak:	  231268 kB
-VmSize:	  165872 kB
+NStgid:	78
+NSpid:	78
+NSpgid:	78
+NSsid:	78
+VmPeak:	    5084 kB
+VmSize:	    4860 kB
 VmLck:	       0 kB
 VmPin:	       0 kB
-VmHWM:	   11220 kB
-VmRSS:	   11220 kB
-RssAnon:	    2928 kB
-RssFile:	    8292 kB
+VmHWM:	    2112 kB
+VmRSS:	    1816 kB
+RssAnon:	     452 kB
+RssFile:	    1364 kB
 RssShmem:	       0 kB
-VmData:	   18992 kB
+VmData:	    1632 kB
 VmStk:	     132 kB
-VmExe:	     896 kB
-VmLib:	    9056 kB
-VmPTE:	      84 kB
+VmExe:	      20 kB
+VmLib:	    2180 kB
+VmPTE:	      52 kB
 VmSwap:	       0 kB
 HugetlbPages:	       0 kB
 CoreDumping:	0
@@ -36,9 +36,9 @@ Threads:	1
 SigQ:	0/128173
 SigPnd:	0000000000000000
 ShdPnd:	0000000000000000
-SigBlk:	7be3c0fe28014a03
+SigBlk:	0000000000000000
 SigIgn:	0000000000001000
-SigCgt:	00000001000004ec
+SigCgt:	0000000000004003
 CapInh:	0000000000000000
 CapPrm:	000001ffffffffff
 CapEff:	000001ffffffffff
@@ -53,5 +53,5 @@ Cpus_allowed:	ffffff
 Cpus_allowed_list:	0-23
 Mems_allowed:	1
 Mems_allowed_list:	0
-voluntary_ctxt_switches:	6371
-nonvoluntary_ctxt_switches:	79
+voluntary_ctxt_switches:	483
+nonvoluntary_ctxt_switches:	1

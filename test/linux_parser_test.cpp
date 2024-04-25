@@ -50,7 +50,7 @@ TEST(MemoryUtilizationTest, LinuxOSTest) {
 
 TEST(PidTest, LinuxOSTest) {
   std::filesystem::path pid_dir_path = kTestDataDirPath;
-  std::vector<int> expected{1, 103, 75};
+  std::vector<int> expected{1, 103, 75, 78};
   std::vector<int> actual = LinuxParser::Pids(pid_dir_path.string());
   EXPECT_EQ(actual, expected);
 }
@@ -170,11 +170,11 @@ TEST(ProcStatsTest, Process1Test) {
   EXPECT_EQ(actual.size(), 52);
   EXPECT_EQ(actual[0], "1");
   EXPECT_EQ(actual[1], "(systemd)");
-  EXPECT_EQ(actual[LinuxParser::kUtimeStatIndex], "5442");
-  EXPECT_EQ(actual[LinuxParser::kStimeStatIndex], "406");
-  EXPECT_EQ(actual[LinuxParser::kCutimeStatIndex], "187");
-  EXPECT_EQ(actual[LinuxParser::kCstimeStatIndex], "37");
-  EXPECT_EQ(actual[LinuxParser::kStarttimeStatIndex], "77");
+  EXPECT_EQ(actual[LinuxParser::kUtimeStatIndex], "285");
+  EXPECT_EQ(actual[LinuxParser::kStimeStatIndex], "39");
+  EXPECT_EQ(actual[LinuxParser::kCutimeStatIndex], "78");
+  EXPECT_EQ(actual[LinuxParser::kCstimeStatIndex], "24");
+  EXPECT_EQ(actual[LinuxParser::kStarttimeStatIndex], "76");
 }
 
 TEST(ProcStatsTest, Process75Test) {

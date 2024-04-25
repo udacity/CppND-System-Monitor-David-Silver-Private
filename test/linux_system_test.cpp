@@ -12,10 +12,10 @@ using std::filesystem::path;
 const path kTestDir("test");
 const path kTestDataDir("testdata");
 const path kTestDataDirPath = std::filesystem::current_path() / kTestDir / kTestDataDir;
-const path kMemInfoFilePath = kTestDataDirPath / path("meminfo");
+const path kMemInfoFilePath = kTestDataDirPath / path("recent_meminfo");
 const path kOSVersionFilePath = kTestDataDirPath / path("fake_os_release");
-const path kStatsFilePath = kTestDataDirPath / path("stat");
-const path kUptimeFilePath = kTestDataDirPath / path("uptime");
+const path kStatsFilePath = kTestDataDirPath / path("recent_stat");
+const path kUptimeFilePath = kTestDataDirPath / path("recent_uptime");
 const path kkernelInfoFilePath = kTestDataDirPath / path("fake_proc_version");
 const path kEtcPasswdFilePath = kTestDataDirPath / path("fake_etc_passwd");
 
@@ -36,6 +36,8 @@ TEST_F(LinuxSystemTest, ProcessesTest) {
  auto processes = system_.Processes();
  EXPECT_EQ(processes.size(), expectedSize);
  EXPECT_EQ(processes[0].Pid(), 1);
+ EXPECT_EQ(processes[0].User(), "root");
+ EXPECT_EQ(processes[0].Command(), "/sbin/init");
 }
 
 TEST_F(LinuxSystemTest, MemoryUtilizationTest) {

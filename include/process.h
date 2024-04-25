@@ -1,6 +1,7 @@
 #ifndef PROCESS_H
 #define PROCESS_H
 
+#include <unistd.h>
 #include <string>
 #include <unordered_map>
 #include <filesystem>
@@ -11,6 +12,7 @@
 #include "system.h"
 
 const std::chrono::duration<int, std::milli> kUpdateInterval(500);
+const float kCPUHertz = float(sysconf(_SC_CLK_TCK));
 
 /*
 Basic class for Process representation
