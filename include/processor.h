@@ -13,6 +13,7 @@ class Processor {
     if (this->cpu_stats_file_path_.empty()) {throw runtime_error("processor's statistics file path must not be empty"); }
   }
   float Utilization();
+  bool operator==(Processor b) const;
 
  private:
   const string cpu_stats_file_path_;

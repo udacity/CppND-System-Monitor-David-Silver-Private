@@ -51,9 +51,9 @@ void Process::UpdateStats() {
     const long procSTime = std::stol(stats[LinuxParser::kStimeStatIndex]);
     const long procCUTime = std::stol(stats[LinuxParser::kCutimeStatIndex]);
     const long procCSTime = std::stol(stats[LinuxParser::kCstimeStatIndex]);
-    const auto cpuHertz = sysconf(_SC_CLK_TCK);
-    const long procTotalTime = procUpTime + procSTime + procCUTime + procCSTime;
-    const long procElapsedTime = systemUpTime - (procStartTime / cpuHertz);
-    this->uptime_ = procElapsedTime;
-    this->cpu_utilization_ = 100 * ((float(procTotalTime) / cpuHertz) / procElapsedTime);
+    const float cpuHertz = float(sysconf(_SC_CLK_TCK));
+    const float procTotalTime = float(procUpTime + procSTime + procCUTime + procCSTime);
+    const float procElapsedTime = float(systemUpTime) - (float(procStartTime) / cpuHertz);
+    this->uptime_ = (long int) procElapsedTime;
+    this->cpu_utilization_ = 100 * ((procTotalTime / cpuHertz) / (float) procElapsedTime);
 }

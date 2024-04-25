@@ -37,9 +37,12 @@ add_executable(
         src/linux_parser.cpp
         src/linux_system.cpp
         src/system_memory.cpp
+        src/processor.cpp
+        src/process.cpp
         test/format_test.cpp
         test/linux_parser_test.cpp
         test/system_memory_test.cpp
+        test/linux_system_test.cpp
 )
 target_link_libraries(
         monitor_test
