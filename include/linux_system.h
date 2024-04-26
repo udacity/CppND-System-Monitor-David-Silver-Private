@@ -6,6 +6,7 @@
 
 #include "system.h"
 #include "process.h"
+#include "linux_parser.h"
 
 using std::string;
 
