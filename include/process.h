@@ -8,7 +8,6 @@
 #include <chrono>
 #include <ctime>
 
-#include "linux_parser.h"
 #include "system.h"
 
 const std::chrono::duration<int, std::milli> kUpdateInterval(500);
@@ -20,9 +19,7 @@ It contains relevant attributes as shown below
 */
 class Process {
  public:
-  Process(System& system, const int pid, const std::string user, const std::string command, const std::filesystem::path pathRoot) : system_(system), pid_(pid), user_(user), cmd_(command), fs_path_root_(pathRoot) {
-    this->proc_stats_file_path_ = pathRoot / std::filesystem::path(std::to_string(pid)) / LinuxParser::kProcStatFilePath;
-  }
+  Process(System& system, const int pid, const std::string user, const std::string command, const std::filesystem::path pathRoot);
   int Pid();                             
   std::string User();                    
   std::string Command();                 
@@ -30,13 +27,14 @@ class Process {
   std::string Ram();                     
   long int UpTime();                     
   bool operator<(Process const& a) const;
+  bool operator==(Process b) const;
 
  private:
   System& system_;
-  const int pid_;
-  const std::string user_;
-  const std::string cmd_;
-  const std::filesystem::path fs_path_root_;
+  int pid_;
+  std::string user_;
+  std::string cmd_;
+  std::filesystem::path fs_path_root_;
   std::filesystem::path proc_stats_file_path_;
   long int uptime_{0};
   float cpu_utilization_{0};

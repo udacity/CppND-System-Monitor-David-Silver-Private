@@ -2,6 +2,7 @@
 #include "linux_parser.h"
 #include "process.h"
 
+#include <algorithm>
 #include <chrono>
 #include <iostream>
 #include <filesystem>
@@ -44,6 +45,7 @@ vector<Process>& LinuxSystem::Processes() {
     const Process proc(*this, pid, this->uid_map_[uid], cmd, procDirPath);
     processes.push_back(proc);
   }
+  // std::sort(processes.begin(), processes.end(), [](const Process *a, const Process *b) {return a > b;});
   return processes;
 }
 

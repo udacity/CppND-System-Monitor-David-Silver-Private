@@ -4,6 +4,7 @@
 #include "../include/processor.h"
 #include "../include/process.h"
 
+#include <algorithm>
 #include <string>
 #include <filesystem>
 #include <unistd.h>
@@ -117,4 +118,13 @@ TEST_F(ProcTest, LessThanTest3) {
 
 TEST_F(ProcTest, LessThanTest4) {
  EXPECT_TRUE(p75_ < p78_);
+}
+
+TEST_F(ProcTest, SortTest) {
+ vector<Process> procs{p1_, p103_, p78_, p75_};
+ // std::sort(procs.begin(), procs.end());
+ EXPECT_EQ(procs[0], p103_);
+ EXPECT_EQ(procs[1], p1_);
+ EXPECT_EQ(procs[2], p75_);
+ EXPECT_EQ(procs[3], p78_);
 }

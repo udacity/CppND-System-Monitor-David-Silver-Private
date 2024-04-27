@@ -5,6 +5,8 @@
 #include <chrono>
 #include <ctime>
 #include <iostream>
+#include <memory>
+#include <filesystem>
 
 #include "process.h"
 #include "linux_parser.h"
@@ -12,6 +14,11 @@
 using std::string;
 using std::to_string;
 using std::vector;
+
+Process::Process(System& system, const int pid, const std::string user, const std::string command, const std::filesystem::path pathRoot) : system_(system), pid_(pid), user_(user), cmd_(command), fs_path_root_(pathRoot) {
+    this->proc_stats_file_path_ = pathRoot / std::filesystem::path(std::to_string(pid)) / LinuxParser::kProcStatFilePath;
+    UpdateStats();
+}
 
 int Process::Pid() { return this->pid_; }
 
@@ -34,11 +41,23 @@ long int Process::UpTime() {
 }
 
 bool Process::operator<(Process const& a) const {
-    std::cout << "this uitilzation: " << this->cpu_utilization_ << "\n";
-    std::cout << "that uitilzation: " << a.cpu_utilization_ << "\n";
     return this->cpu_utilization_ < a.cpu_utilization_;
 }
 
+bool Process::operator==(Process b) const {
+    return this->pid_ == b.pid_;
+}
+/*
+bool Process::operator>(Process const& a) const {
+    return this->cpu_utilization_ > a.cpu_utilization_;
+}
+
+Process& Process::operator=(Process& other)
+{
+    static Process tmp(other);
+    return tmp;
+}
+*/
 void Process::UpdateStats() {
     /*const std::chrono::time_point now = std::chrono::system_clock::now();
     const std::chrono::time_point nextUpdate = stats_last_updated_ + kUpdateInterval;
