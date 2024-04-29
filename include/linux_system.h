@@ -26,6 +26,7 @@ class LinuxSystem : public System {
   int RunningProcesses() override;
   std::string Kernel() override;
   std::string OperatingSystem() override;
+  void SortDescending(vector<Process>&);
  private:
   string procs_dir_path_;
   string cpu_info_file_path_;

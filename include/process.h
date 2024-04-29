@@ -19,7 +19,7 @@ It contains relevant attributes as shown below
 */
 class Process {
  public:
-  Process(System& system, const int pid, const std::string user, const std::string command, const std::filesystem::path pathRoot);
+  Process(System* system, const int pid, const std::string user, const std::string command, const std::filesystem::path pathRoot);
   int Pid();                             
   std::string User();                    
   std::string Command();                 
@@ -27,10 +27,11 @@ class Process {
   std::string Ram();                     
   long int UpTime();                     
   bool operator<(Process const& a) const;
+  bool operator>(Process const& a) const;
   bool operator==(Process b) const;
 
  private:
-  System& system_;
+  System* system_;
   int pid_;
   std::string user_;
   std::string cmd_;

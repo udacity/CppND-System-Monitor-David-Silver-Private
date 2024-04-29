@@ -29,10 +29,10 @@ class ProcTest : public testing::Test {
  protected:
  LinuxSystem system_{kTestDataDirPath.generic_string(), kTestDataDirPath.generic_string(), kMemInfoFilePath.generic_string(), kOSVersionFilePath.generic_string(), kTestDataDirPath.generic_string(), kStatsFilePath.generic_string(), kUptimeFilePath.generic_string(), kkernelInfoFilePath.generic_string(), kEtcPasswdFilePath.generic_string()};
  LinuxSystem recent_system_{kTestDataDirPath.generic_string(), kTestDataDirPath.generic_string(), kRecentMemInfoFilePath.generic_string(), kOSVersionFilePath.generic_string(), kTestDataDirPath.generic_string(), kRecentStatsFilePath.generic_string(), kRecentUptimeFilePath.generic_string(), kkernelInfoFilePath.generic_string(), kEtcPasswdFilePath.generic_string()};
- Process p1_{recent_system_, 1, "root", "/sbin/init", kTestDataDirPath};
- Process p75_{system_, 75, "root", "snapfuse /var/lib/snapd/snaps/bare_5.snap /snap/bare/5 -o ro,nodev,allow_other,suid ", kTestDataDirPath};
- Process p78_{recent_system_, 78, "root", "snapfuse /var/lib/snapd/snaps/bare_5.snap /snap/bare/5 -o ro,nodev,allow_other,suid ", kTestDataDirPath};
- Process p103_{system_, 103, "foo", "/usr/lib/chromium-browser/chromium-browser --type=zygote --ppapi-flash-path=/usr/lib/adobe-fl", kTestDataDirPath};
+ Process p1_{&recent_system_, 1, "root", "/sbin/init", kTestDataDirPath};
+ Process p75_{&system_, 75, "root", "snapfuse /var/lib/snapd/snaps/bare_5.snap /snap/bare/5 -o ro,nodev,allow_other,suid ", kTestDataDirPath};
+ Process p78_{&recent_system_, 78, "root", "snapfuse /var/lib/snapd/snaps/bare_5.snap /snap/bare/5 -o ro,nodev,allow_other,suid ", kTestDataDirPath};
+ Process p103_{&system_, 103, "foo", "/usr/lib/chromium-browser/chromium-browser --type=zygote --ppapi-flash-path=/usr/lib/adobe-fl", kTestDataDirPath};
  const float cpuHertz = float(sysconf(_SC_CLK_TCK));
 };
 
@@ -120,11 +120,17 @@ TEST_F(ProcTest, LessThanTest4) {
  EXPECT_TRUE(p75_ < p78_);
 }
 
+TEST_F(ProcTest, EqualityTest) {
+ Process a = p103_;
+ Process b = p103_;
+ EXPECT_TRUE(a == b);
+}
+
 TEST_F(ProcTest, SortTest) {
  vector<Process> procs{p1_, p103_, p78_, p75_};
- // std::sort(procs.begin(), procs.end());
+ recent_system_.SortDescending(procs);
  EXPECT_EQ(procs[0], p103_);
  EXPECT_EQ(procs[1], p1_);
- EXPECT_EQ(procs[2], p75_);
- EXPECT_EQ(procs[3], p78_);
+ EXPECT_EQ(procs[2], p78_);
+ EXPECT_EQ(procs[3], p75_);
 }

@@ -42,10 +42,10 @@ vector<Process>& LinuxSystem::Processes() {
   for(const int pid: currentPids) {
     const string uid = LinuxParser::Uid(this->procs_dir_path_, pid);
     const string cmd = LinuxParser::Command(this->procs_dir_path_, pid);
-    const Process proc(*this, pid, this->uid_map_[uid], cmd, procDirPath);
+    const Process proc(this, pid, this->uid_map_[uid], cmd, procDirPath);
     processes.push_back(proc);
   }
-  // std::sort(processes.begin(), processes.end(), [](const Process *a, const Process *b) {return a > b;});
+  SortDescending(processes);
   return processes;
 }
 
@@ -86,4 +86,8 @@ long LinuxSystem::UpTime() {
   this->uptime_last_updated_ = now;*/
   this->uptime_ = LinuxParser::UpTime(this->uptime_file_path_);
   return this->uptime_;
+}
+
+void LinuxSystem::SortDescending(vector<Process>& processes) {
+  std::sort(processes.begin(), processes.end(), [](const Process a, const Process b) {return a > b;});
 }

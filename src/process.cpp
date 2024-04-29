@@ -15,7 +15,7 @@ using std::string;
 using std::to_string;
 using std::vector;
 
-Process::Process(System& system, const int pid, const std::string user, const std::string command, const std::filesystem::path pathRoot) : system_(system), pid_(pid), user_(user), cmd_(command), fs_path_root_(pathRoot) {
+Process::Process(System* system, const int pid, const std::string user, const std::string command, const std::filesystem::path pathRoot) : system_(system), pid_(pid), user_(user), cmd_(command), fs_path_root_(pathRoot) {
     this->proc_stats_file_path_ = pathRoot / std::filesystem::path(std::to_string(pid)) / LinuxParser::kProcStatFilePath;
     UpdateStats();
 }
@@ -44,20 +44,14 @@ bool Process::operator<(Process const& a) const {
     return this->cpu_utilization_ < a.cpu_utilization_;
 }
 
-bool Process::operator==(Process b) const {
-    return this->pid_ == b.pid_;
-}
-/*
 bool Process::operator>(Process const& a) const {
     return this->cpu_utilization_ > a.cpu_utilization_;
 }
 
-Process& Process::operator=(Process& other)
-{
-    static Process tmp(other);
-    return tmp;
+bool Process::operator==(Process b) const {
+    return this->pid_ == b.pid_;
 }
-*/
+
 void Process::UpdateStats() {
     /*const std::chrono::time_point now = std::chrono::system_clock::now();
     const std::chrono::time_point nextUpdate = stats_last_updated_ + kUpdateInterval;
@@ -67,7 +61,7 @@ void Process::UpdateStats() {
     this->stats_last_updated_ = now;
     */
     const auto stats = LinuxParser::Stats(this->proc_stats_file_path_);
-    const long systemUpTime = this->system_.UpTime();
+    const long systemUpTime = system_->UpTime();
     const long procStartTime = std::stol(stats[LinuxParser::kStarttimeStatIndex]);
     const long procUpTime = std::stol(stats[LinuxParser::kUtimeStatIndex]);
     const long procSTime = std::stol(stats[LinuxParser::kStimeStatIndex]);
