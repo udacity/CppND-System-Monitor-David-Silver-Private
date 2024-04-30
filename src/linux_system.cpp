@@ -45,7 +45,6 @@ vector<Process>& LinuxSystem::Processes() {
     const Process proc(this, pid, this->uid_map_[uid], cmd, procDirPath);
     processes.push_back(proc);
   }
-  SortDescending(processes);
   return processes;
 }
 
