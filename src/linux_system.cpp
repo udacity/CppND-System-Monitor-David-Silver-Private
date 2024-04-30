@@ -77,12 +77,12 @@ int LinuxSystem::TotalProcesses() {
 }
 
 long LinuxSystem::UpTime() {
-  /*const std::chrono::time_point now = std::chrono::system_clock::now();
+  const std::chrono::time_point now = std::chrono::system_clock::now();
   const std::chrono::time_point nextUpdate = uptime_last_updated_ + kUpdateInterval;
   if (now < nextUpdate) {
       return this->uptime_;
   }
-  this->uptime_last_updated_ = now;*/
+  this->uptime_last_updated_ = now;
   this->uptime_ = LinuxParser::UpTime(this->uptime_file_path_);
   return this->uptime_;
 }

@@ -53,13 +53,12 @@ bool Process::operator==(Process b) const {
 }
 
 void Process::UpdateStats() {
-    /*const std::chrono::time_point now = std::chrono::system_clock::now();
+    const std::chrono::time_point now = std::chrono::system_clock::now();
     const std::chrono::time_point nextUpdate = stats_last_updated_ + kUpdateInterval;
     if (now < nextUpdate) {
         return;
     }
     this->stats_last_updated_ = now;
-    */
     const auto stats = LinuxParser::Stats(this->proc_stats_file_path_);
     const long systemUpTime = system_->UpTime();
     const long procStartTime = std::stol(stats[LinuxParser::kStarttimeStatIndex]);
