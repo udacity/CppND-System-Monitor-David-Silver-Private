@@ -1,10 +1,10 @@
 #ifndef SYSTEM_PARSER_H
 #define SYSTEM_PARSER_H
 
+#include <filesystem>
 #include <fstream>
 #include <regex>
 #include <string>
-#include <filesystem>
 #include <unordered_map>
 
 namespace LinuxParser {
@@ -38,7 +38,6 @@ const int kCutimeStatIndex = 15;
 const int kCstimeStatIndex = 16;
 const int kStarttimeStatIndex = 21;
 
-
 // System
 float MemoryUtilization(const std::filesystem::path &filePath);
 long UpTime(const std::filesystem::path &filePath);
@@ -47,7 +46,8 @@ int TotalProcesses(const std::filesystem::path &filePath);
 int RunningProcesses(const std::filesystem::path &filePath);
 std::string OperatingSystem(const std::filesystem::path &filePath);
 std::string Kernel(const std::filesystem::path &filePath);
-std::unordered_map<std::string, std::string>& UserIdMap(const std::filesystem::path &filePath);
+std::unordered_map<std::string, std::string> &UserIdMap(
+    const std::filesystem::path &filePath);
 std::vector<std::string> Stats(const std::filesystem::path &filePath);
 
 // CPU

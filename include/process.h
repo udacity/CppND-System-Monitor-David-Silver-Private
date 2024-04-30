@@ -2,11 +2,12 @@
 #define PROCESS_H
 
 #include <unistd.h>
-#include <string>
-#include <unordered_map>
-#include <filesystem>
+
 #include <chrono>
 #include <ctime>
+#include <filesystem>
+#include <string>
+#include <unordered_map>
 
 #include "system.h"
 
@@ -19,13 +20,14 @@ It contains relevant attributes as shown below
 */
 class Process {
  public:
-  Process(System* system, const int pid, const std::string user, const std::string command, const std::filesystem::path pathRoot);
-  int Pid();                             
-  std::string User();                    
-  std::string Command();                 
-  float CpuUtilization();                
-  std::string Ram();                     
-  long int UpTime();                     
+  Process(System* system, const int pid, const std::string user,
+          const std::string command, const std::filesystem::path pathRoot);
+  int Pid();
+  std::string User();
+  std::string Command();
+  float CpuUtilization();
+  std::string Ram();
+  long int UpTime();
   bool operator<(Process const& a) const;
   bool operator>(Process const& a) const;
   bool operator==(Process b) const;

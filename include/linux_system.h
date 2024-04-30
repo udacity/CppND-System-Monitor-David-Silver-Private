@@ -1,23 +1,30 @@
 #ifndef MONITOR_LINUX_SYSTEM_H
 #define MONITOR_LINUX_SYSTEM_H
 
-#include <unordered_map>
 #include <chrono>
+#include <unordered_map>
 
-#include "system.h"
-#include "process.h"
 #include "linux_parser.h"
+#include "process.h"
+#include "system.h"
 
 using std::string;
 
-const string kDefaultProcessorStatsFilePath = LinuxParser::kProcDirectory + LinuxParser::kStatFilename;
+const string kDefaultProcessorStatsFilePath =
+    LinuxParser::kProcDirectory + LinuxParser::kStatFilename;
 
 class LinuxSystem : public System {
  public:
-  // The default constructor uses the standard location for the Linux system files, using the constants defined in the linux_parser.h header file.
+  // The default constructor uses the standard location for the Linux system
+  // files, using the constants defined in the linux_parser.h header file.
   LinuxSystem();
-  // Constructor for specifying alternative files for providing system information. Useful for unit testing the implementation logic.
-  LinuxSystem(string procs_dir_path, string cpuInfoFilePath, string memInfoFilePath, string osVersionFilePath, string statusFilePath, string statsFilePath, string uptimeFilePath, string kernelInfoFilePath, string etcPasswdFilePath);
+  // Constructor for specifying alternative files for providing system
+  // information. Useful for unit testing the implementation logic.
+  LinuxSystem(string procs_dir_path, string cpuInfoFilePath,
+              string memInfoFilePath, string osVersionFilePath,
+              string statusFilePath, string statsFilePath,
+              string uptimeFilePath, string kernelInfoFilePath,
+              string etcPasswdFilePath);
   Processor& Cpu() override;
   std::vector<Process>& Processes() override;
   float MemoryUtilization() override;
@@ -27,6 +34,7 @@ class LinuxSystem : public System {
   std::string Kernel() override;
   std::string OperatingSystem() override;
   void SortDescending(vector<Process>&);
+
  private:
   string procs_dir_path_;
   string cpu_info_file_path_;
