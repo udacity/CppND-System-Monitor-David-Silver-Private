@@ -25,6 +25,7 @@ class LinuxSystem : public System {
               string statusFilePath, string statsFilePath,
               string uptimeFilePath, string kernelInfoFilePath,
               string etcPasswdFilePath);
+  ~LinuxSystem();
   Processor& Cpu() override;
   std::vector<Process>& Processes() override;
   float MemoryUtilization() override;
@@ -44,6 +45,7 @@ class LinuxSystem : public System {
   string uptime_file_path_;
   string os_version_file_path_;
   string kernel_info_file_path_;
+  std::vector<Process> processes_;
   std::unordered_map<std::string, std::string> uid_map_;
   std::unordered_map<std::string, Process&> proc_map_;
   long uptime_{0};

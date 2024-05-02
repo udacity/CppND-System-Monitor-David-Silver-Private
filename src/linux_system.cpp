@@ -45,19 +45,26 @@ LinuxSystem::LinuxSystem(string procs_dir_path, string cpuInfoFilePath,
   this->uid_map_ = LinuxParser::UserIdMap(etcPasswdFilePath);
 }
 
+LinuxSystem::~LinuxSystem() {
+  std::cout << "DESTRUCTOR CALLED" << std::endl;
+  this->uid_map_.clear();
+  this->proc_map_.clear();
+  this->processes_.clear();
+}
+
 Processor& LinuxSystem::Cpu() { return this->cpu_; }
 
 vector<Process>& LinuxSystem::Processes() {
-  static vector<Process> processes;
+  this->processes_.clear();
   const vector<int> currentPids = LinuxParser::Pids(this->procs_dir_path_);
   const filesystem::path procDirPath(this->procs_dir_path_);
   for (const int pid : currentPids) {
     const string uid = LinuxParser::Uid(this->procs_dir_path_, pid);
     const string cmd = LinuxParser::Command(this->procs_dir_path_, pid);
     const Process proc(this, pid, this->uid_map_[uid], cmd, procDirPath);
-    processes.push_back(proc);
+    processes_.push_back(proc);
   }
-  return processes;
+  return processes_;
 }
 
 std::string LinuxSystem::Kernel() {
