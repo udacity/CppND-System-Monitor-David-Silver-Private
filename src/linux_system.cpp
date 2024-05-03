@@ -46,7 +46,6 @@ LinuxSystem::LinuxSystem(string procs_dir_path, string cpuInfoFilePath,
 }
 
 LinuxSystem::~LinuxSystem() {
-  std::cout << "LINUX SYSTEM DESTRUCTOR CALLED" << std::endl;
   this->uid_map_.clear();
   this->proc_map_.clear();
   this->processes_.clear();
@@ -64,6 +63,7 @@ vector<Process>& LinuxSystem::Processes() {
     const Process proc(this, pid, this->uid_map_[uid], cmd, procDirPath);
     processes_.push_back(proc);
   }
+  std::sort(processes_.rbegin(), processes_.rend());
   return processes_;
 }
 
