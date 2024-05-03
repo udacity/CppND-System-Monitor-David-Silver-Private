@@ -35,9 +35,9 @@ TEST_F(LinuxSystemTest, ProcessesTest) {
  const int expectedSize = 4;
  auto processes = system_.Processes();
  EXPECT_EQ(processes.size(), expectedSize);
- EXPECT_EQ(processes[0].Pid(), 1);
- EXPECT_EQ(processes[0].User(), "root");
- EXPECT_EQ(processes[0].Command(), "/sbin/init");
+ EXPECT_EQ(processes[0].Pid(), 103);
+ EXPECT_EQ(processes[0].User(), "foo");
+ EXPECT_EQ(processes[0].Command(), "/usr/lib/chromium-browser/chromium-browser --type=zygote --ppapi-flash-path=/usr/lib/adobe-fl");
 }
 
 TEST_F(LinuxSystemTest, MemoryUtilizationTest) {
