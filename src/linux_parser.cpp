@@ -244,9 +244,9 @@ string LinuxParser::User(int pid [[maybe_unused]]) { return string(); }
 // NOTE: Provided function not required in this implementation
 long LinuxParser::UpTime(int pid [[maybe_unused]]) { return 0; }
 
-std::unordered_map<string, string> &LinuxParser::UserIdMap(
+std::unordered_map<string, string> LinuxParser::UserIdMap(
     const std::filesystem::path &filePath) {
-  static std::unordered_map<string, string> uid_map;
+  std::unordered_map<string, string> uid_map;
 
   string line, datum, userName;
   std::ifstream stream(filePath);

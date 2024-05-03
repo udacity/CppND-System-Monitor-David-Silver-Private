@@ -46,7 +46,7 @@ LinuxSystem::LinuxSystem(string procs_dir_path, string cpuInfoFilePath,
 }
 
 LinuxSystem::~LinuxSystem() {
-  std::cout << "DESTRUCTOR CALLED" << std::endl;
+  std::cout << "LINUX SYSTEM DESTRUCTOR CALLED" << std::endl;
   this->uid_map_.clear();
   this->proc_map_.clear();
   this->processes_.clear();
