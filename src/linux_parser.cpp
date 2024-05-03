@@ -98,23 +98,19 @@ string LinuxParser::Kernel(const std::filesystem::path &filePath) {
   return kernel;
 }
 
-// BONUS: Update this to use std::filesystem
 vector<int> LinuxParser::Pids(const std::string &dirPath) {
   vector<int> pids;
-  DIR *directory = opendir(dirPath.c_str());
-  struct dirent *file;
-  while ((file = readdir(directory)) != nullptr) {
-    // Is this a directory?
-    if (file->d_type == DT_DIR) {
+  const std::filesystem::path directory{dirPath};
+  for (auto const& dir_entry : std::filesystem::directory_iterator{directory}) {
+    if (dir_entry.is_directory()) {
       // Is every character of the name a digit?
-      string filename(file->d_name);
+      string filename(dir_entry.path().filename());
       if (std::all_of(filename.begin(), filename.end(), isdigit)) {
         int pid = stoi(filename);
         pids.push_back(pid);
       }
     }
   }
-  closedir(directory);
   return pids;
 }
 
