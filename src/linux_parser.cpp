@@ -3,6 +3,7 @@
 #include <dirent.h>
 #include <unistd.h>
 
+#include <cmath>
 #include <filesystem>
 #include <set>
 #include <string>
@@ -97,7 +98,19 @@ float LinuxParser::MemoryUtilization() {
 }
 
 // TODO: Read and return the system uptime
-long LinuxParser::UpTime() { return 0; }
+long LinuxParser::UpTime() {
+  string up, idle;
+  string line;
+  float uptime{0};
+  std::ifstream stream(kProcDirectory + kUptimeFilename);
+  if (stream.is_open()) {
+    std::getline(stream, line);
+    std::istringstream linestream(line);
+    linestream >> up >> idle;
+    if (up.length()) uptime = std::stof(up);
+  }
+  return static_cast<long>(std::floor(uptime));
+};
 
 // TODO: Read and return the number of jiffies for the system
 long LinuxParser::Jiffies() { return 0; }
@@ -133,11 +146,26 @@ int LinuxParser::TotalProcesses() {
 };
 
 // TODO: Read and return the number of running processes
-int LinuxParser::RunningProcesses() { return 0; }
+int LinuxParser::RunningProcesses() { return LinuxParser::Pids().size(); };
 
 // TODO: Read and return the command associated with a process
 // REMOVE: [[maybe_unused]] once you define the function
-string LinuxParser::Command(int pid [[maybe_unused]]) { return string(); }
+string LinuxParser::Command(int pid) {
+  string cmd;
+  auto pids = LinuxParser::Pids();
+  auto p_active = std::find(pids.begin(), pids.end(), pid);
+  if (p_active != pids.end()) {
+    string line;
+    std::ifstream stream{kProcDirectory + "/" + std::to_string(pid) +
+                         kCmdlineFilename};
+    if (stream.is_open()) {
+      std::getline(stream, line);
+      std::istringstream linestream(line);
+      linestream >> cmd;
+    }
+  }
+  return cmd;
+};
 
 // TODO: Read and return the memory used by a process
 // REMOVE: [[maybe_unused]] once you define the function
